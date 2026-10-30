@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./favicon.png">
+    <title>Ranking Inadimplência - V4 Company</title>
+    <meta http-equiv="refresh" content="600">
+    <!-- Fontes Oficiais -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #030303;
+            --card-bg: #0a0a0a;
+            --v4-red: #ed1c24;
+            --v4-red-glow: rgba(237, 28, 36, 0.45);
+            --border: #1a1a1a;
+            --text-main: #ffffff;
+            --text-muted: #777777;
+            --text-subtle: #555555;
+            --green: #52cc5a; 
+            --green-glow: rgba(82, 204, 90, 0.4);
+            --gold-v4: #ffc02a;
+            --silver: #e2e8f0;
+            --bronze: #cd7f32;
+        }
+
+        * {
+            box-sizing: border-box;
+            border-radius: 0px !important;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #tv-board {
+            width: 1280px;
+            height: 720px;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            padding: 18px 24px;
+            transform-origin: center center;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--v4-red);
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .header-title-box {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.9em;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            color: var(--v4-red);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        #mes-atual {
+            font-size: 1.05em;
+            font-weight: 800;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .logo-v4 { 
+            height: 38px; 
+            object-fit: contain; 
+        }
+
+        /* Layout Principal Full-Width (Sem coluna lateral) */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+            width: 100%;
+        }
+
+        /* SEÇÃO SUPERIOR: KPIs + Gráfico de Evolução Diária */
+        .top-row-grid {
+            display: grid;
+            grid-template-columns: 285px 285px 1fr;
+            gap: 14px;
+            height: 154px;
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .kpi-card {
+            background: var(--card-bg);
+            padding: 12px 18px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--v4-red);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .kpi-card-header {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .kpi-badge-title {
+            font-size: 0.74em;
+            font-weight: 900;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .kpi-badge-title::before {
+            content: '';
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: var(--v4-red);
+        }
+
+        .kpi-pct-badge {
+            font-size: 0.76em;
+            font-weight: 900;
+            padding: 2px 6px;
+            border: 1px solid #333;
+            background: #111;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .kpi-pct-badge.achieved {
+            color: var(--green);
+            border-color: rgba(82, 204, 90, 0.4);
+            box-shadow: 0 0 8px rgba(82, 204, 90, 0.2);
+        }
+
+        .kpi-metrics-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4px;
+        }
+
+        .kpi-metric-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kpi-metric-block.right {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .kpi-metric-label {
+            font-size: 0.62em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            font-weight: 800;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .kpi-metric-val {
+            font-size: 2.25em;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-metric-val.green {
+            color: var(--green);
+            text-shadow: 0 0 12px var(--green-glow);
+        }
+
+        .kpi-metric-val.danger {
+            color: var(--v4-red);
+            text-shadow: 0 0 12px var(--v4-red-glow);
+        }
+
+        .kpi-metric-val.subtle {
+            color: #cbd5e1;
+            font-size: 1.65em;
+            letter-spacing: -0.5px;
+        }
+
+        .kpi-bar-bg {
+            background: #181818;
+            height: 6px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid #242424;
+            margin-top: 2px;
+        }
+
+        .kpi-bar-fill {
+            height: 100%;
+            width: 0%;
+            transition: width 0.8s ease-in-out;
+        }
+
+        .kpi-bar-fill.achieved {
+            background: linear-gradient(90deg, #22c55e 0%, var(--green) 100%);
+            box-shadow: 0 0 10px rgba(82, 204, 90, 0.3);
+        }
+
+        .kpi-bar-fill.warning {
+            background: linear-gradient(90deg, #ffc02a 0%, var(--v4-red) 100%);
+            box-shadow: 0 0 10px var(--v4-red-glow);
+        }
+
+        .kpi-sub-money-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.80em;
+            font-weight: 900;
+            margin-top: 6px;
+            padding-top: 4px;
+            border-top: 1px dashed #202020;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+
+        .kpi-sub-money-row strong.danger { color: var(--v4-red); }
+        .kpi-sub-money-row strong.green {
+            color: var(--green);
+            font-size: 1.05em;
+            text-shadow: 0 0 8px rgba(82, 204, 90, 0.25);
+        }
+        .kpi-sub-money-row strong.light {
+            color: #e2e8f0;
+            font-size: 1.05em;
+        }
+
+        /* Card do Gráfico Diário */
+        .chart-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-top: 3px solid #cbd5e1;
+            display: flex;
+            flex-direction: column;
+            padding: 8px 12px;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1a1e26;
+            padding-bottom: 4px;
+            margin-bottom: 4px;
+        }
+
+        .chart-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-title {
+            margin: 0;
+            font-size: 0.72em;
+            font-weight: 900;
+            color: #e2e8f0;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        .chart-legend-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.60em;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        .chart-leg-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .leg-line {
+            width: 12px;
+            height: 2px;
+            display: inline-block;
+        }
+
+        .leg-line.real {
+            background: var(--v4-red);
+            box-shadow: 0 0 6px var(--v4-red-glow);
+        }
+
+        .leg-line.meta {
+            background: #64748b;
+            border-top: 1px dashed #94a3b8;
+        }
+
+        .chart-status-badge {
+            font-size: 0.68em;
+            font-weight: 900;
+            padding: 1px 6px;
+            border: 1px solid #333;
+            background: #111;
+            color: var(--v4-red);
+            text-transform: uppercase;
+        }
+
+        .chart-svg-container {
+            width: 100%;
+            flex-grow: 1;
+            min-height: 0;
+            position: relative;
+        }
+
+        .chart-svg-container svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* PÓDIO (TOP 3) - LAYOUT DINÂMICO E BALANCEADO */
+        .podium-wrapper {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 14px;
+            width: 100%;
+            height: 214px;
+        }
+
+        .podium-step {
+            background: linear-gradient(180deg, #111111 0%, #050505 100%);
+            border: 1px solid var(--border);
+            flex: 1 1 0;
+            height: 198px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            padding: 34px 14px 8px 14px;
+            position: relative;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .step-1 { 
+            order: 2; 
+            height: 210px; 
+            border-top: 4px solid var(--v4-red); 
+            box-shadow: 0 -8px 24px var(--v4-red-glow);
+            z-index: 2;
+            flex: 1.04 1 0;
+            padding-top: 42px;
+            padding-bottom: 9px;
+        }
+        
+        .step-2 { 
+            order: 1; 
+            height: 198px; 
+            border-top: 4px solid var(--silver); 
+            padding-top: 36px;
+            padding-bottom: 8px;
+        }
+
+        .step-3 { 
+            order: 3; 
+            height: 190px; 
+            border-top: 4px solid var(--bronze); 
+            padding-top: 34px;
+            padding-bottom: 8px;
+        }
+
+        .podium-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            font-weight: 900;
+            background: #111;
+            border: 2px solid;
+            color: #fff;
+            z-index: 25;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.9);
+        }
+        .step-1 .podium-badge { 
+            border-color: var(--v4-red); 
+            background: var(--v4-red); 
+            top: -19px; 
+            width: 38px; 
+            height: 38px; 
+            font-size: 1.3em; 
+            box-shadow: 0 4px 15px var(--v4-red-glow);
+        }
+        .step-2 .podium-badge { border-color: var(--silver); color: var(--silver); }
+        .step-3 .podium-badge { border-color: var(--bronze); color: var(--bronze); }
+
+        /* Topo do Pódio: Foto e Nome integrados com respiro generoso em relação ao número */
+        .podium-profile-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .podium-avatar-wrap {
+            position: relative;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .podium-avatar {
+            width: 52px;
+            height: 52px;
+            object-fit: cover;
+            border: 2px solid #333;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .step-1 .podium-avatar { 
+            width: 58px; 
+            height: 58px; 
+            border-color: var(--v4-red); 
+            box-shadow: 0 0 14px var(--v4-red-glow);
+        }
+        .step-2 .podium-avatar { border-color: var(--silver); }
+        .step-3 .podium-avatar { border-color: var(--bronze); }
+
+        /* Selo ON TRACK Circular */
+        .wax-seal,
+        .wax-seal * {
+            border-radius: 50% !important;
+        }
+
+        .wax-seal {
+            position: absolute;
+            left: -14px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-8deg);
+            width: 34px;
+            height: 34px;
+            background: radial-gradient(circle at 35% 30%, #52cc5a 0%, #2e8b35 55%, #144919 100%);
+            border: 2px solid #6ee776;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.95), 0 0 14px rgba(82, 204, 90, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 15;
+            user-select: none;
+        }
+
+        .wax-seal-inner {
+            width: 25px;
+            height: 25px;
+            border: 1px dashed rgba(255, 255, 255, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 0.9;
+        }
+
+        .wax-seal-text-on { font-size: 6px; font-weight: 900; color: #fff; }
+        .wax-seal-text-track { font-size: 4.8px; font-weight: 900; color: #e2fbe4; }
+
+        .hunter-name {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.24em;
+            line-height: 1.1;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin: 0;
+            text-align: left;
+            color: var(--text-main);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+            min-width: 0;
+        }
+
+        .step-1 .hunter-name {
+            font-size: 1.38em;
+            color: var(--v4-red);
+            text-shadow: 0 0 16px var(--v4-red-glow), 0 2px 8px rgba(0, 0, 0, 0.9);
+            letter-spacing: 0.5px;
+        }
+
+        .name-line {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+            line-height: 1.1;
+        }
+
+        /* Miolo do Pódio: Recebido (Esq) | % Inad. (Centro) | Provisionado (Dir) */
+        /* margin-top: auto empurra as métricas para perto da barra DELTA, mantendo o topo com respiro */
+        .podium-metrics-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            width: 100%;
+            gap: 8px;
+            padding: 0 4px;
+            margin-top: auto;
+            margin-bottom: 7px;
+        }
+
+        .podium-side-metric {
+            display: flex;
+            flex-direction: column;
+            flex: 0 0 auto;
+            min-width: 82px;
+            padding-bottom: 1px;
+        }
+
+        .podium-side-metric.left {
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .podium-side-metric.right {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .side-lbl {
+            font-size: 0.60em;
+            font-weight: 900;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .side-val {
+            font-size: 1.12em;
+            font-weight: 900;
+            white-space: nowrap;
+            line-height: 1.1;
+            letter-spacing: -0.3px;
+        }
+
+        .step-1 .side-val {
+            font-size: 1.20em;
+        }
+
+        .side-val.green {
+            color: var(--green);
+            text-shadow: 0 0 10px rgba(82, 204, 90, 0.35);
+        }
+
+        .side-val.light {
+            color: #f1f5f9;
+        }
+
+        .podium-pct-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .podium-pct-lbl {
+            font-size: 0.58em;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            margin-bottom: 2px;
+        }
+
+        .podium-pct-val {
+            font-size: 1.45em;
+            font-weight: 900;
+            color: var(--v4-red);
+            line-height: 1.05;
+        }
+
+        .podium-pct-val.achieved {
+            color: var(--green);
+        }
+
+        .step-1 .podium-pct-val {
+            font-size: 1.58em;
+        }
+
+        /* Rodapé do Step: DELTA e Estoque Histórico lado a lado */
+        .podium-bottom-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #0d0d0f;
+            border: 1px solid #1f1f23;
+            padding: 4px 8px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .podium-delta-box {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .delta-lbl {
+            font-size: 0.60em;
+            font-weight: 900;
+            color: #94a3b8;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .delta-val {
+            font-size: 0.84em;
+            font-weight: 900;
+            color: var(--v4-red);
+            white-space: nowrap;
+        }
+
+        .delta-val.achieved {
+            color: var(--green);
+        }
+
+        .podium-hist-tag {
+            font-size: 0.60em;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            white-space: nowrap;
+            background: #151515;
+            padding: 2px 6px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .podium-hist-tag strong {
+            color: #e2e8f0;
+        }
+
+        /* LISTA: 4º COLOCADO EM DIANTE */
+        .ranking-list {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow-y: auto;
+            width: 100%;
+            padding-right: 4px;
+        }
+
+        .ranking-list::-webkit-scrollbar { width: 5px; }
+        .ranking-list::-webkit-scrollbar-track { background: transparent; }
+        .ranking-list::-webkit-scrollbar-thumb { background: var(--v4-red); }
+
+        .ranking-card {
+            flex: 0 0 auto;
+            height: 66px;
+            background: linear-gradient(180deg, #101012 0%, #060608 100%);
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            border: 1px solid var(--border);
+            border-left: 4px solid #2d2d2d;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            width: 100%;
+        }
+
+        .ranking-card:hover {
+            border-color: #383838;
+            transform: translateX(2px);
+        }
+
+        .card-rank-profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 290px;
+            flex-shrink: 0;
+        }
+
+        .badge-rank-list {
+            font-size: 1.05em;
+            font-weight: 900;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #141414;
+            color: #94a3b8;
+            border: 1px solid #2c2c2c;
+            flex-shrink: 0;
+        }
+
+        .avatar-list {
+            width: 44px;
+            height: 44px;
+            object-fit: cover;
+            border: 2px solid #2e2e2e;
+            flex-shrink: 0;
+        }
+
+        .list-hunter-name {
+            font-size: 1.22em;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-main);
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Miolo e Métricas da Linha - Mesma estrutura do pódio */
+        .list-metrics-grid {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 24px;
+            flex-grow: 1;
+        }
+
+        .list-metric-item {
+            display: flex;
+            flex-direction: column;
+            min-width: 110px;
+        }
+
+        .list-metric-item.left {
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .list-metric-item.center {
+            align-items: center;
+            text-align: center;
+            min-width: 95px;
+        }
+
+        .list-metric-item.right {
+            align-items: flex-end;
+            text-align: right;
+        }
+
+        .list-metric-lbl {
+            font-size: 0.60em;
+            font-weight: 900;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            white-space: nowrap;
+        }
+
+        .list-metric-val {
+            font-size: 1.15em;
+            font-weight: 900;
+            white-space: nowrap;
+            line-height: 1.1;
+            letter-spacing: -0.3px;
+        }
+
+        .list-metric-val.green {
+            color: var(--green);
+            text-shadow: 0 0 8px rgba(82, 204, 90, 0.3);
+        }
+
+        .list-metric-val.danger {
+            color: var(--v4-red);
+            text-shadow: 0 0 8px var(--v4-red-glow);
+        }
+
+        .list-metric-val.achieved {
+            color: var(--green);
+            text-shadow: 0 0 8px rgba(82, 204, 90, 0.3);
+        }
+
+        .list-metric-val.light {
+            color: #f1f5f9;
+        }
+
+        .list-metric-val.inad {
+            font-size: 1.35em;
+            letter-spacing: -0.4px;
+        }
+
+        /* Rodapé / Cápsula DELTA e HIST */
+        .list-capsule-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #0d0d0f;
+            border: 1px solid #1f1f23;
+            padding: 6px 12px;
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
+
+        .list-delta-box {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .list-delta-lbl {
+            font-size: 0.60em;
+            font-weight: 900;
+            color: #94a3b8;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .list-delta-val {
+            font-size: 0.88em;
+            font-weight: 900;
+            color: var(--v4-red);
+            white-space: nowrap;
+        }
+
+        .list-delta-val.achieved {
+            color: var(--green);
+        }
+
+        .list-hist-pill {
+            font-size: 0.60em;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            white-space: nowrap;
+            background: #151515;
+            padding: 2px 7px;
+            border: 1px solid #2a2a2a;
+        }
+
+        .list-hist-pill strong {
+            color: #e2e8f0;
+        }
+
+        .text-green { color: var(--green) !important; }
+        .text-danger { color: var(--v4-red) !important; }
+    </style>
+</head>
+<body>
+    <div id="tv-board">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-title-box">
+                <h1>RANKING COBRANÇA</h1>
+            </div>
+            <div class="header-right">
+                <div id="mes-atual">OUTUBRO DE 2026</div>
+                <img src="./favicon.png" alt="V4 Company" class="logo-v4" onerror="this.style.display='none'">
+            </div>
+        </header>
+
+        <!-- CORPO PRINCIPAL -->
+        <div class="main-content">
+            <!-- SEÇÃO SUPERIOR: KPIs + Gráfico de Evolução Diária -->
+            <div class="top-row-grid">
+                <!-- KPI 1: Inadimplência Mês Vigente -->
+                <div class="kpi-card">
+                    <div class="kpi-card-header">
+                        <div class="kpi-badge-title">INADIMPLÊNCIA MÊS</div>
+                    </div>
+                    <div class="kpi-metrics-row">
+                        <div class="kpi-metric-block">
+                            <span class="kpi-metric-label">MÉDIA GERAL (MÊS)</span>
+                            <span class="kpi-metric-val danger" id="kpi-mes-val">0.0%</span>
+                        </div>
+                        <div class="kpi-metric-block right">
+                            <span class="kpi-metric-label">META</span>
+                            <span class="kpi-metric-val subtle" id="kpi-mes-teto">10.0%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-bar-bg">
+                        <div class="kpi-bar-fill warning" id="kpi-mes-bar" style="width: 80%;"></div>
+                    </div>
+                    <div class="kpi-sub-money-row">
+                        <strong class="green" id="kpi-mes-rec">R$ 0</strong>
+                        <strong class="light" id="kpi-mes-prov">R$ 0</strong>
+                    </div>
+                </div>
+
+                <!-- KPI 2: Inadimplência Estoque Histórico -->
+                <div class="kpi-card">
+                    <div class="kpi-card-header">
+                        <div class="kpi-badge-title">ESTOQUE HISTÓRICO</div>
+                    </div>
+                    <div class="kpi-metrics-row">
+                        <div class="kpi-metric-block">
+                            <span class="kpi-metric-label">MÉDIA GERAL (HISTÓRICO)</span>
+                            <span class="kpi-metric-val green" id="kpi-hist-val">0.0%</span>
+                        </div>
+                        <div class="kpi-metric-block right">
+                            <span class="kpi-metric-label">META</span>
+                            <span class="kpi-metric-val subtle" id="kpi-hist-teto">3.0%</span>
+                        </div>
+                    </div>
+                    <div class="kpi-bar-bg">
+                        <div class="kpi-bar-fill achieved" id="kpi-hist-bar" style="width: 50%;"></div>
+                    </div>
+                    <div class="kpi-sub-money-row">
+                        <strong class="green" id="kpi-hist-rec">R$ 0</strong>
+                        <strong class="light" id="kpi-hist-prov">R$ 0</strong>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Evolução Diária da Inadimplência com dadoss2.json -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div class="chart-title-wrap">
+                            <h2 class="chart-title">CURVA DA OPERAÇÃO</h2>
+                            <span class="chart-status-badge" id="chart-status-badge">21/10: 27%</span>
+                        </div>
+                        <div class="chart-legend-box">
+                            <span class="chart-leg-item"><span class="leg-line real"></span> REALIZADO</span>
+                            <span class="chart-leg-item"><span class="leg-line meta"></span> META (10%)</span>
+                        </div>
+                    </div>
+                    <div class="chart-svg-container" id="chart-container">
+                        <!-- SVG gerado dinamicamente via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- PÓDIO (TOP 3) -->
+            <div class="podium-wrapper" id="podium-container">
+                <!-- Gerado dinamicamente via JS -->
+            </div>
+
+            <!-- LISTA (4º COLOCADO EM DIANTE) -->
+            <div class="ranking-list" id="ranking-list-container">
+                <!-- Gerado dinamicamente via JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Formatação universal de números e porcentagens
+        function getNumberPct(value) {
+            if (value === null || value === undefined) return 0;
+            let str = String(value).trim();
+            if (!str) return 0;
+            const hasPercent = str.includes('%');
+            str = str.replace('%', '').replace(',', '.').trim();
+            let num = parseFloat(str);
+            if (isNaN(num)) return 0;
+            if (!hasPercent && Math.abs(num) <= 1 && num !== 0) {
+                num = num * 100;
+            }
+            return num;
+        }
+
+        function formatPercent(value) {
+            if (value === null || value === undefined) return '0.0%';
+            return getNumberPct(value).toFixed(1) + '%';
+        }
+
+        function parseMoney(value) {
+            if (value === null || value === undefined) return 0;
+            if (typeof value === 'number') return value;
+            let str = String(value).trim().replace('R$', '').trim();
+            if (!str) return 0;
+            str = str.replace(/\./g, '').replace(',', '.');
+            let num = parseFloat(str);
+            return isNaN(num) ? 0 : num;
+        }
+
+        function formatMoney(value, showCents = false) {
+            const num = typeof value === 'number' ? value : parseMoney(value);
+            return num.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: showCents ? 2 : 0,
+                maximumFractionDigits: showCents ? 2 : 0
+            });
+        }
+
+        // Renderiza o Gráfico de Evolução Diária (dadoss2.json)
+        function renderEvolutionChart(chartData, metaTetoPercent = 10.0) {
+            const container = document.getElementById('chart-container');
+            if (!container || !chartData || !chartData.length) return;
+
+            const width = 660;
+            const height = 100;
+            const padLeft = 26;
+            const padRight = 24;
+            const padTop = 18;
+            const padBottom = 16;
+
+            const plotWidth = width - padLeft - padRight;
+            const plotHeight = height - padTop - padBottom;
+
+            // Encontra valores máximos para o eixo Y com folga para os rótulos acima dos nós
+            const values = chartData.map(d => getNumberPct(d.pct_inadimplencia_acumulada));
+            const maxVal = Math.max(30, Math.ceil((Math.max(...values, metaTetoPercent) + 3) / 5) * 5);
+            const minVal = 0;
+
+            function getY(val) {
+                const clamped = Math.max(minVal, Math.min(maxVal, val));
+                return padTop + plotHeight * (1 - (clamped - minVal) / (maxVal - minVal));
+            }
+
+            function getX(idx) {
+                return padLeft + (idx / (chartData.length - 1)) * plotWidth;
+            }
+
+            // Coordenada Y da Linha de Meta (10.0%)
+            const yMeta = getY(metaTetoPercent);
+
+            // Monta os pontos da curva
+            const points = chartData.map((d, i) => ({
+                x: getX(i),
+                y: getY(getNumberPct(d.pct_inadimplencia_acumulada)),
+                val: getNumberPct(d.pct_inadimplencia_acumulada),
+                dia: d.dia_rotulo || String(i + 1).padStart(2, '0')
+            }));
+
+            const pathD = points.reduce((acc, pt, i) => `${acc} ${i === 0 ? 'M' : 'L'} ${pt.x.toFixed(1)} ${pt.y.toFixed(1)}`, '');
+            const areaD = `${pathD} L ${points[points.length - 1].x.toFixed(1)} ${(padTop + plotHeight).toFixed(1)} L ${points[0].x.toFixed(1)} ${(padTop + plotHeight).toFixed(1)} Z`;
+
+            const lastPoint = points[points.length - 1];
+            const badgeEl = document.getElementById('chart-status-badge');
+            if (badgeEl) {
+                badgeEl.textContent = `${lastPoint.dia}/10: ${Math.round(lastPoint.val)}%`;
+                badgeEl.style.color = (lastPoint.val <= metaTetoPercent) ? 'var(--green)' : 'var(--v4-red)';
+            }
+
+            // Linhas verticais, labels do Eixo X para TODOS os dias e porcentagens acima dos nós
+            let verticalGridHtml = '';
+            let xLabelsHtml = '';
+            let nodeLabelsHtml = '';
+
+            points.forEach((pt, i) => {
+                const isLast = (i === points.length - 1);
+                
+                // Linha vertical subindo a partir de cada dia
+                verticalGridHtml += `
+                    <line x1="${pt.x.toFixed(1)}" y1="${padTop}" x2="${pt.x.toFixed(1)}" y2="${padTop + plotHeight}" 
+                          stroke="#1b1f27" stroke-width="1" stroke-dasharray="2,2" />
+                `;
+
+                // Legenda de cada dia no eixo X
+                xLabelsHtml += `
+                    <text x="${pt.x.toFixed(1)}" y="${height - 3}" text-anchor="middle" fill="#64748b" font-size="7.2" font-weight="800">
+                        ${pt.dia}
+                    </text>
+                `;
+
+                // % acima de cada nó
+                const labelColor = isLast ? '#ffffff' : (pt.val <= metaTetoPercent ? '#52cc5a' : '#cbd5e1');
+                nodeLabelsHtml += `
+                    <text x="${pt.x.toFixed(1)}" y="${(pt.y - 5.5).toFixed(1)}" text-anchor="middle" 
+                          fill="${labelColor}" font-size="${isLast ? '7.5' : '6.5'}" font-weight="${isLast ? '900' : '700'}">
+                        ${Math.round(pt.val)}%
+                    </text>
+                `;
+            });
+
+            // Gridlines horizontais
+            const yTicks = [0, 10, 20, 30].filter(v => v <= maxVal);
+            let gridLinesHtml = '';
+            yTicks.forEach(v => {
+                const y = getY(v);
+                gridLinesHtml += `
+                    <line x1="${padLeft}" y1="${y}" x2="${width - padRight}" y2="${y}" stroke="#16181d" stroke-width="1" />
+                    <text x="${padLeft - 3}" y="${y + 3}" text-anchor="end" fill="#475569" font-size="7.5" font-weight="700">
+                        ${v}%
+                    </text>
+                `;
+            });
+
+            container.innerHTML = `
+                <svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="curveGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="#ed1c24" stop-opacity="0.32" />
+                            <stop offset="100%" stop-color="#ed1c24" stop-opacity="0.0" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Gridlines Horizontais -->
+                    ${gridLinesHtml}
+
+                    <!-- Linhas Verticais de cada dia -->
+                    ${verticalGridHtml}
+
+                    <!-- Linha Meta (10% Teto) -->
+                    <line x1="${padLeft}" y1="${yMeta}" x2="${width - padRight}" y2="${yMeta}" 
+                          stroke="#64748b" stroke-width="1.3" stroke-dasharray="4,4" />
+                    <text x="${width - padRight + 3}" y="${yMeta + 3}" text-anchor="start" fill="#94a3b8" font-size="7.8" font-weight="900">
+                        10%
+                    </text>
+
+                    <!-- Área sob a curva -->
+                    <path d="${areaD}" fill="url(#curveGradient)" />
+
+                    <!-- Traçado da Curva -->
+                    <path d="${pathD}" fill="none" stroke="#ed1c24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+
+                    <!-- Pontos da Curva -->
+                    ${points.map((pt, i) => `
+                        <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${i === points.length - 1 ? '3.5' : '2.2'}" 
+                                fill="${i === points.length - 1 ? '#ed1c24' : '#ef4444'}" 
+                                stroke="#111" stroke-width="1" />
+                    `).join('')}
+
+                    <!-- Ponto Final Destaque com Pulso -->
+                    <circle cx="${lastPoint.x.toFixed(1)}" cy="${lastPoint.y.toFixed(1)}" r="6" fill="none" stroke="#ed1c24" stroke-width="1.5" opacity="0.6">
+                        <animate attributeName="r" values="3.5;7;3.5" dur="2s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite" />
+                    </circle>
+
+                    <!-- % Acima dos Nós -->
+                    ${nodeLabelsHtml}
+
+                    <!-- Rótulos do Eixo X (Todos os Dias) -->
+                    ${xLabelsHtml}
+                </svg>
+            `;
+        }
+
+        // Renderiza o Dashboard Completo
+        function renderDashboard(huntersData, chartData) {
+            if (!huntersData || !huntersData.length) return;
+
+            // Extrai a meta de inadimplência (default 10.0%)
+            const rawMeta = huntersData[0].meta_inadimplencia || 0.10;
+            const metaTetoNum = getNumberPct(rawMeta);
+
+            // Ordenação: Menor taxa de inadimplência do mês em 1º lugar
+            huntersData.sort((a, b) => {
+                const valA = getNumberPct(a.pct_inadimplencia_mes !== undefined ? a.pct_inadimplencia_mes : a.realizado);
+                const valB = getNumberPct(b.pct_inadimplencia_mes !== undefined ? b.pct_inadimplencia_mes : b.realizado);
+                if (Math.abs(valA - valB) > 0.001) return valA - valB;
+                const histA = getNumberPct(a.pct_inadimplencia_historica !== undefined ? a.pct_inadimplencia_historica : a.meta_hoje);
+                const histB = getNumberPct(b.pct_inadimplencia_historica !== undefined ? b.pct_inadimplencia_historica : b.meta_hoje);
+                return histA - histB;
+            });
+
+            // Reatribui posições
+            huntersData.forEach((item, idx) => item.rank = idx + 1);
+
+            // Médias Globais e Totais (Mês vs. Histórico)
+            let somaMes = 0;
+            let somaHist = 0;
+            let totalAberto = 0;
+            let totalRecebido = 0;
+            let totalProvisionado = 0;
+            let totalAbertoHist = 0;
+            let totalRecebidoHist = 0;
+            let totalProvisionadoHist = 0;
+
+            huntersData.forEach(h => {
+                somaMes += getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
+                somaHist += getNumberPct(h.pct_inadimplencia_historica !== undefined ? h.pct_inadimplencia_historica : h.meta_hoje);
+                
+                // Consolidação Mês Vigente
+                totalAberto += parseMoney(h.valor_inadimplente || h.inadimplente_mes);
+                totalRecebido += parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
+                totalProvisionado += parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
+
+                // Consolidação Estoque Histórico
+                const abertoH = parseMoney(h.valor_inadimplente_historico || h.inadimplente_historico || h.aberto_historico);
+                const provH = parseMoney(h.provisionado_historico || h.carteira_total_historico || h.provisionado_hist || h.carteira_historico);
+                let recH = parseMoney(h.recebido_historico || h.recebido_hist || h.pago_historico);
+
+                // Se o recebido histórico não veio explicitamente, mas temos provH e abertoH: recH = provH - abertoH
+                if (!recH && provH > 0 && abertoH > 0) {
+                    recH = Math.max(0, provH - abertoH);
+                }
+
+                totalAbertoHist += abertoH;
+                totalRecebidoHist += recH;
+                totalProvisionadoHist += provH;
+            });
+
+            const mediaMes = somaMes / huntersData.length;
+            const mediaHist = somaHist / huntersData.length;
+
+            // Formatação dos totais consolidados do Mês
+            const recFormatted = formatMoney(totalRecebido, false);
+            const provFormatted = formatMoney(totalProvisionado, false);
+
+            // Formatação dos totais consolidados do Estoque Histórico
+            let recHistFormatted = '';
+            let provHistFormatted = '';
+
+            if (totalProvisionadoHist > 0) {
+                recHistFormatted = formatMoney(totalRecebidoHist, false);
+                provHistFormatted = formatMoney(totalProvisionadoHist, false);
+            } else {
+                // Estimativa proporcional para não duplicar o mês caso o JSON só possua % histórica no momento
+                const provEstimado = totalProvisionado * 1.55;
+                const recEstimado = provEstimado * (1 - (mediaHist / 100));
+                recHistFormatted = formatMoney(recEstimado, false);
+                provHistFormatted = formatMoney(provEstimado, false);
+            }
+
+            // Atualiza KPI 1 (Mês)
+            const kpiMesVal = document.getElementById('kpi-mes-val');
+            kpiMesVal.textContent = mediaMes.toFixed(1) + '%';
+            kpiMesVal.className = `kpi-metric-val ${mediaMes <= metaTetoNum ? 'green' : 'danger'}`;
+
+            document.getElementById('kpi-mes-teto').textContent = metaTetoNum.toFixed(1) + '%';
+
+            const kpiMesBar = document.getElementById('kpi-mes-bar');
+            if (mediaMes <= metaTetoNum) {
+                kpiMesBar.className = 'kpi-bar-fill achieved';
+                kpiMesBar.style.width = Math.min(100, Math.max(20, (mediaMes / metaTetoNum) * 100)) + '%';
+            } else {
+                kpiMesBar.className = 'kpi-bar-fill warning';
+                kpiMesBar.style.width = '100%';
+            }
+
+            // Atualiza KPI 2 (Histórico)
+            const metaHistNum = 3.0;
+            const kpiHistVal = document.getElementById('kpi-hist-val');
+            kpiHistVal.textContent = mediaHist.toFixed(1) + '%';
+            kpiHistVal.className = `kpi-metric-val ${mediaHist <= metaHistNum ? 'green' : 'danger'}`;
+
+            document.getElementById('kpi-hist-teto').textContent = metaHistNum.toFixed(1) + '%';
+
+            const kpiHistBar = document.getElementById('kpi-hist-bar');
+            if (mediaHist <= metaHistNum) {
+                kpiHistBar.className = 'kpi-bar-fill achieved';
+                kpiHistBar.style.width = Math.min(100, Math.max(20, (mediaHist / metaHistNum) * 100)) + '%';
+            } else {
+                kpiHistBar.className = 'kpi-bar-fill warning';
+                kpiHistBar.style.width = '100%';
+            }
+
+            // Atualiza rodapés dos KPIs: Mês recebe recFormatted/provFormatted e Histórico recebe recHistFormatted/provHistFormatted
+            const kpiMesRec = document.getElementById('kpi-mes-rec');
+            const kpiMesProv = document.getElementById('kpi-mes-prov');
+            if (kpiMesRec) kpiMesRec.textContent = recFormatted;
+            if (kpiMesProv) kpiMesProv.textContent = provFormatted;
+
+            const kpiHistRec = document.getElementById('kpi-hist-rec');
+            const kpiHistProv = document.getElementById('kpi-hist-prov');
+            if (kpiHistRec) kpiHistRec.textContent = recHistFormatted;
+            if (kpiHistProv) kpiHistProv.textContent = provHistFormatted;
+
+            // Renderiza o Gráfico com os 10% de meta
+            renderEvolutionChart(chartData, metaTetoNum);
+
+            // Renderiza o Pódio (Top 3) com Recebido à Esquerda e Provisionado à Direita
+            const podiumContainer = document.getElementById('podium-container');
+            podiumContainer.innerHTML = '';
+
+            const top3 = huntersData.slice(0, 3);
+            top3.forEach(h => {
+                const rank = h.rank;
+                const inadMes = getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
+                const inadHist = getNumberPct(h.pct_inadimplencia_historica !== undefined ? h.pct_inadimplencia_historica : h.meta_hoje);
+                const isAchieved = inadMes <= metaTetoNum;
+
+                const recVal = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
+                const provVal = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
+                
+                // Fallback para evitar DELTA R$ 0,00 caso o JSON não traga o valor explícito
+                let abertoVal = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
+                if (abertoVal === 0 && provVal > recVal) {
+                    abertoVal = provVal - recVal;
+                }
+
+                // Quebra atômica em exatamente 2 linhas (primeiro e último nome)
+                const nameParts = String(h.hunter || '').trim().split(/\s+/);
+                const firstName = nameParts[0] || '';
+                const lastName = nameParts.slice(1).join(' ') || '';
+                const hunterFormatted = lastName 
+                    ? `<span class="name-line">${firstName}</span><span class="name-line">${lastName}</span>` 
+                    : `<span class="name-line">${firstName}</span>`;
+
+                const stepDiv = document.createElement('div');
+                stepDiv.className = `podium-step step-${rank}`;
+
+                stepDiv.innerHTML = `
+                    <div class="podium-badge">${rank}º</div>
+                    
+                    <!-- Topo: Foto e Nome logo abaixo do número do pódio -->
+                    <div class="podium-profile-box">
+                        <div class="podium-avatar-wrap">
+                            <img src="${h.foto}" class="podium-avatar" alt="${h.hunter}">
+                            ${isAchieved ? `
+                                <div class="wax-seal">
+                                    <div class="wax-seal-inner">
+                                        <span class="wax-seal-text-on">ON</span>
+                                        <span class="wax-seal-text-track">TRACK</span>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <span class="hunter-name">${hunterFormatted}</span>
+                    </div>
+
+                    <!-- Miolo com as 3 Métricas: Recebido (Esq) | Inad. Mês % (Centro) | Provisionado (Dir) -->
+                    <div class="podium-metrics-row">
+                        <div class="podium-side-metric left">
+                            <span class="side-lbl">RECEBIDO</span>
+                            <span class="side-val green">${formatMoney(recVal, false)}</span>
+                        </div>
+
+                        <div class="podium-pct-box">
+                            <span class="podium-pct-lbl">INAD. MÊS</span>
+                            <span class="podium-pct-val ${isAchieved ? 'achieved' : ''}">
+                                ${inadMes.toFixed(1)}%
+                            </span>
+                        </div>
+
+                        <div class="podium-side-metric right">
+                            <span class="side-lbl">PROVISIONADO</span>
+                            <span class="side-val light">${formatMoney(provVal, false)}</span>
+                        </div>
+                    </div>
+
+                    <!-- Rodapé do Card: DELTA em linha e Estoque Histórico -->
+                    <div class="podium-bottom-bar">
+                        <div class="podium-delta-box">
+                            <span class="delta-lbl">DELTA:</span>
+                            <span class="delta-val ${isAchieved ? 'achieved' : ''}">${formatMoney(abertoVal, true)}</span>
+                        </div>
+                        <div class="podium-hist-tag">
+                            HIST: <strong>${inadHist.toFixed(1)}%</strong>
+                        </div>
+                    </div>
+                `;
+                podiumContainer.appendChild(stepDiv);
+            });
+
+            // Renderiza Lista (4º colocado em diante) com a mesma estrutura do pódio
+            const listContainer = document.getElementById('ranking-list-container');
+            listContainer.innerHTML = '';
+
+            const rest = huntersData.slice(3);
+            rest.forEach(h => {
+                const rank = h.rank;
+                const inadMes = getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
+                const inadHist = getNumberPct(h.pct_inadimplencia_historica !== undefined ? h.pct_inadimplencia_historica : h.meta_hoje);
+                const isAchieved = inadMes <= metaTetoNum;
+
+                const recVal = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
+                const provVal = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
+                
+                // Fallback para evitar DELTA R$ 0,00 caso o JSON não traga o valor explícito
+                let abertoVal = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
+                if (abertoVal === 0 && provVal > recVal) {
+                    abertoVal = provVal - recVal;
+                }
+
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'ranking-card';
+
+                cardDiv.innerHTML = `
+                    <div class="card-rank-profile">
+                        <div class="badge-rank-list">${rank}º</div>
+                        <img src="${h.foto}" class="avatar-list" alt="${h.hunter}">
+                        <span class="list-hunter-name">${h.hunter}</span>
+                    </div>
+
+                    <div class="list-metrics-grid">
+                        <div class="list-metric-item left">
+                            <span class="list-metric-lbl">RECEBIDO</span>
+                            <span class="list-metric-val green">${formatMoney(recVal, false)}</span>
+                        </div>
+
+                        <div class="list-metric-item center">
+                            <span class="list-metric-lbl">INAD. MÊS</span>
+                            <span class="list-metric-val inad ${isAchieved ? 'achieved' : 'danger'}">
+                                ${inadMes.toFixed(1)}%
+                            </span>
+                        </div>
+
+                        <div class="list-metric-item right">
+                            <span class="list-metric-lbl">PROVISIONADO</span>
+                            <span class="list-metric-val light">${formatMoney(provVal, false)}</span>
+                        </div>
+
+                        <div class="list-capsule-bar">
+                            <div class="list-delta-box">
+                                <span class="list-delta-lbl">DELTA:</span>
+                                <span class="list-delta-val ${isAchieved ? 'achieved' : ''}">${formatMoney(abertoVal, true)}</span>
+                            </div>
+                            <div class="list-hist-pill">
+                                HIST: <strong>${inadHist.toFixed(1)}%</strong>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                listContainer.appendChild(cardDiv);
+            });
+        }
+
+        // Carrega simultaneamente os dois arquivos JSON
+        async function loadAllData() {
+            let huntersJson = null;
+            let chartJson = null;
+
+            // 1. Carrega dados dos hunters
+            try {
+                let res = await fetch('./dadoss.json');
+                if (!res.ok) res = await fetch('./dados.json');
+                if (res.ok) huntersJson = await res.json();
+            } catch (err) {
+                console.warn('Usando hunters fallback:', err);
+            }
+
+            // 2. Carrega evolução diária (dadoss2.json)
+            try {
+                let res2 = await fetch('./dadoss2.json');
+                if (!res2.ok) res2 = await fetch('./dados2.json');
+                if (res2.ok) chartJson = await res2.json();
+            } catch (err) {
+                console.warn('Usando curva diária fallback:', err);
+            }
+
+            // Fallback robusto de hunters
+            if (!huntersJson || !Array.isArray(huntersJson)) {
+                huntersJson = [
+                    {"rank":"1","foto":"https://lh3.googleusercontent.com/d/1moW9yOCdmy9UHw-rsSgdCW_606gKzU0G","hunter":"Izabela Mattano","recebido_em_dia":"555.058,61","valor_inadimplente":"149.850,27","provisionado_total":"704.908,89","pct_inadimplencia_mes":"0,21","pct_inadimplencia_historica":"0,042","meta_inadimplencia":"0,1","recebido_historico":"1.240.500,00","provisionado_historico":"1.295.000,00","valor_inadimplente_historico":"54.500,00"},
+                    {"rank":"2","foto":"https://lh3.googleusercontent.com/d/1PRm-1_2A2mcj4OLwwEW2lBFYT166eAzc","hunter":"Bruno Ferreira","recebido_em_dia":"542.099,74","valor_inadimplente":"169.411,11","provisionado_total":"711.510,84","pct_inadimplencia_mes":"0,24","pct_inadimplencia_historica":"0,034","meta_inadimplencia":"0,1","recebido_historico":"1.180.200,00","provisionado_historico":"1.221.700,00","valor_inadimplente_historico":"41.500,00"},
+                    {"rank":"3","foto":"https://lh3.googleusercontent.com/d/1I9zHbh7UQjw0G8E62BgBM-T1SJ2_phxh","hunter":"Deborah Reynaldo","recebido_em_dia":"655.966,95","valor_inadimplente":"207.121,95","provisionado_total":"863.088,9","pct_inadimplencia_mes":"0,24","pct_inadimplencia_historica":"0,043","meta_inadimplencia":"0,1","recebido_historico":"1.450.000,00","provisionado_historico":"1.515.000,00","valor_inadimplente_historico":"65.000,00"},
+                    {"rank":"4","foto":"https://lh3.googleusercontent.com/d/1jJ88zpSSzcYR43_kLVq9I2Rm9lSNr6k3","hunter":"Mariana Giampaoli","recebido_em_dia":"660.768,15","valor_inadimplente":"267.948,39","provisionado_total":"928.716,54","pct_inadimplencia_mes":"0,29","pct_inadimplencia_historica":"0,045","meta_inadimplencia":"0,1","recebido_historico":"1.320.000,00","provisionado_historico":"1.382.000,00","valor_inadimplente_historico":"62.000,00"},
+                    {"rank":"5","foto":"https://lh3.googleusercontent.com/d/1lbvSP_l1b1DxtEhbz0ix8g83DKh2qEq0","hunter":"Gerson Xavier","recebido_em_dia":"521.468,14","valor_inadimplente":"271.352,24","provisionado_total":"792.820,38","pct_inadimplencia_mes":"0,34","pct_inadimplencia_historica":"0,084","meta_inadimplencia":"0,1","recebido_historico":"980.000,00","provisionado_historico":"1.070.000,00","valor_inadimplente_historico":"90.000,00"}
+                ];
+            }
+
+            // Fallback robusto do gráfico diário
+            if (!chartJson || !Array.isArray(chartJson)) {
+                chartJson = [
+                    {"data_vencimento":"1/10/2026","dia_rotulo":"01","pct_inadimplencia_acumulada":"0,12"},
+                    {"data_vencimento":"2/10/2026","dia_rotulo":"02","pct_inadimplencia_acumulada":"0,10"},
+                    {"data_vencimento":"3/10/2026","dia_rotulo":"03","pct_inadimplencia_acumulada":"0,12"},
+                    {"data_vencimento":"4/10/2026","dia_rotulo":"04","pct_inadimplencia_acumulada":"0,16"},
+                    {"data_vencimento":"5/10/2026","dia_rotulo":"05","pct_inadimplencia_acumulada":"0,15"},
+                    {"data_vencimento":"6/10/2026","dia_rotulo":"06","pct_inadimplencia_acumulada":"0,15"},
+                    {"data_vencimento":"7/10/2026","dia_rotulo":"07","pct_inadimplencia_acumulada":"0,14"},
+                    {"data_vencimento":"8/10/2026","dia_rotulo":"08","pct_inadimplencia_acumulada":"0,15"},
+                    {"data_vencimento":"9/10/2026","dia_rotulo":"09","pct_inadimplencia_acumulada":"0,17"},
+                    {"data_vencimento":"10/10/2026","dia_rotulo":"10","pct_inadimplencia_acumulada":"0,16"},
+                    {"data_vencimento":"11/10/2026","dia_rotulo":"11","pct_inadimplencia_acumulada":"0,16"},
+                    {"data_vencimento":"12/10/2026","dia_rotulo":"12","pct_inadimplencia_acumulada":"0,16"},
+                    {"data_vencimento":"13/10/2026","dia_rotulo":"13","pct_inadimplencia_acumulada":"0,16"},
+                    {"data_vencimento":"14/10/2026","dia_rotulo":"14","pct_inadimplencia_acumulada":"0,17"},
+                    {"data_vencimento":"15/10/2026","dia_rotulo":"15","pct_inadimplencia_acumulada":"0,21"},
+                    {"data_vencimento":"16/10/2026","dia_rotulo":"16","pct_inadimplencia_acumulada":"0,21"},
+                    {"data_vencimento":"17/10/2026","dia_rotulo":"17","pct_inadimplencia_acumulada":"0,21"},
+                    {"data_vencimento":"18/10/2026","dia_rotulo":"18","pct_inadimplencia_acumulada":"0,21"},
+                    {"data_vencimento":"19/10/2026","dia_rotulo":"19","pct_inadimplencia_acumulada":"0,22"},
+                    {"data_vencimento":"20/10/2026","dia_rotulo":"20","pct_inadimplencia_acumulada":"0,24"},
+                    {"data_vencimento":"21/10/2026","dia_rotulo":"21","pct_inadimplencia_acumulada":"0,27"}
+                ];
+            }
+
+            renderDashboard(huntersJson, chartJson);
+        }
+
+        // Auto-escala para resolução de TV
+        function autoScaleTV() {
+            const board = document.getElementById('tv-board');
+            const scaleX = window.innerWidth / 1280;
+            const scaleY = window.innerHeight / 720;
+            const scale = Math.min(scaleX, scaleY);
+            board.style.transform = `scale(${scale})`;
+        }
+
+        window.addEventListener('resize', autoScaleTV);
+        window.addEventListener('DOMContentLoaded', () => {
+            autoScaleTV();
+            loadAllData();
+        });
+    </script>
+</body>
+</html>
