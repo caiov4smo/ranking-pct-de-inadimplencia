@@ -966,7 +966,7 @@
                     </div>
                 </div>
 
-                <!-- Gráfico de Evolução Diária da Inadimplência com dadoss2.json -->
+                <!-- Gráfico de Evolução Diária da Inadimplência com dados2.json -->
                 <div class="chart-card">
                     <div class="chart-header">
                         <div class="chart-title-wrap">
@@ -1037,7 +1037,7 @@
             });
         }
 
-        // Renderiza o Gráfico de Evolução Diária (dadoss2.json)
+        // Renderiza o Gráfico de Evolução Diária (dados2.json)
         function renderEvolutionChart(chartData, metaTetoPercent = 10.0) {
             const container = document.getElementById('chart-container');
             if (!container || !chartData || !chartData.length) return;
@@ -1459,16 +1459,16 @@
 
             // 1. Carrega dados dos hunters
             try {
-                let res = await fetch('./dadoss.json');
+                let res = await fetch('./dados.json');
                 if (!res.ok) res = await fetch('./dados.json');
                 if (res.ok) huntersJson = await res.json();
             } catch (err) {
                 console.warn('Usando hunters fallback:', err);
             }
 
-            // 2. Carrega evolução diária (dadoss2.json)
+            // 2. Carrega evolução diária (dados2.json)
             try {
-                let res2 = await fetch('./dadoss2.json');
+                let res2 = await fetch('./dados2.json');
                 if (!res2.ok) res2 = await fetch('./dados2.json');
                 if (res2.ok) chartJson = await res2.json();
             } catch (err) {
