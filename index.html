@@ -102,7 +102,7 @@
             object-fit: contain; 
         }
 
-        /* Layout Principal Full-Width (Sem coluna lateral) */
+        /* Layout Principal Full-Width */
         .main-content {
             display: flex;
             flex-direction: column;
@@ -157,23 +157,6 @@
             width: 7px;
             height: 7px;
             background: var(--v4-red);
-        }
-
-        .kpi-pct-badge {
-            font-size: 0.76em;
-            font-weight: 900;
-            padding: 2px 6px;
-            border: 1px solid #333;
-            background: #111;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
-
-        .kpi-pct-badge.achieved {
-            color: var(--green);
-            border-color: rgba(82, 204, 90, 0.4);
-            box-shadow: 0 0 8px rgba(82, 204, 90, 0.2);
         }
 
         .kpi-metrics-row {
@@ -366,7 +349,7 @@
             display: block;
         }
 
-        /* PÓDIO (TOP 3) - LAYOUT DINÂMICO E BALANCEADO */
+        /* PÓDIO (TOP 3) */
         .podium-wrapper {
             flex-shrink: 0;
             display: flex;
@@ -448,7 +431,6 @@
         .step-2 .podium-badge { border-color: var(--silver); color: var(--silver); }
         .step-3 .podium-badge { border-color: var(--bronze); color: var(--bronze); }
 
-        /* Topo do Pódio: Foto e Nome integrados com respiro generoso em relação ao número */
         .podium-profile-box {
             display: flex;
             align-items: center;
@@ -483,7 +465,6 @@
         .step-2 .podium-avatar { border-color: var(--silver); }
         .step-3 .podium-avatar { border-color: var(--bronze); }
 
-        /* Selo ON TRACK Circular */
         .wax-seal,
         .wax-seal * {
             border-radius: 50% !important;
@@ -551,8 +532,6 @@
             line-height: 1.1;
         }
 
-        /* Miolo do Pódio: Recebido (Esq) | % Inad. (Centro) | Provisionado (Dir) */
-        /* margin-top: auto empurra as métricas para perto da barra DELTA, mantendo o topo com respiro */
         .podium-metrics-row {
             display: flex;
             align-items: flex-end;
@@ -643,7 +622,6 @@
             font-size: 1.58em;
         }
 
-        /* Rodapé do Step: DELTA e Estoque Histórico lado a lado */
         .podium-bottom-bar {
             display: flex;
             align-items: center;
@@ -695,7 +673,7 @@
             color: #e2e8f0;
         }
 
-        /* LISTA: 4º COLOCADO EM DIANTE */
+        /* LISTA: 4º COLOCADO EM DIANTE (Grid com Colunas Fixas) */
         .ranking-list {
             flex-grow: 1;
             display: flex;
@@ -730,12 +708,14 @@
             transform: translateX(2px);
         }
 
+        /* Perfil do Hunter (Esquerda) */
         .card-rank-profile {
             display: flex;
             align-items: center;
             gap: 14px;
-            min-width: 290px;
-            flex-shrink: 0;
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .badge-rank-list {
@@ -772,19 +752,20 @@
             text-overflow: ellipsis;
         }
 
-        /* Miolo e Métricas da Linha - Mesma estrutura do pódio */
+        /* Grade de Métricas Alinhadas Rigorosamente por Colunas Fixas */
         .list-metrics-grid {
-            display: flex;
+            display: grid;
+            grid-template-columns: 140px 105px 145px 250px;
+            gap: 20px;
             align-items: center;
-            justify-content: flex-end;
-            gap: 24px;
-            flex-grow: 1;
+            justify-content: end;
+            flex-shrink: 0;
         }
 
         .list-metric-item {
             display: flex;
             flex-direction: column;
-            min-width: 110px;
+            width: 100%;
         }
 
         .list-metric-item.left {
@@ -795,7 +776,6 @@
         .list-metric-item.center {
             align-items: center;
             text-align: center;
-            min-width: 95px;
         }
 
         .list-metric-item.right {
@@ -845,22 +825,24 @@
             letter-spacing: -0.4px;
         }
 
-        /* Rodapé / Cápsula DELTA e HIST */
+        /* Cápsula DELTA e HIST com Largura e Posicionamento Travados */
         .list-capsule-bar {
+            width: 250px;
+            box-sizing: border-box;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             background: #0d0d0f;
             border: 1px solid #1f1f23;
             padding: 6px 12px;
             flex-shrink: 0;
-            margin-left: 6px;
         }
 
         .list-delta-box {
             display: flex;
             align-items: baseline;
             gap: 5px;
+            min-width: 0;
         }
 
         .list-delta-lbl {
@@ -891,6 +873,7 @@
             background: #151515;
             padding: 2px 7px;
             border: 1px solid #2a2a2a;
+            flex-shrink: 0;
         }
 
         .list-hist-pill strong {
@@ -930,7 +913,7 @@
                         </div>
                         <div class="kpi-metric-block right">
                             <span class="kpi-metric-label">META</span>
-                            <span class="kpi-metric-val subtle" id="kpi-mes-teto">10.0%</span>
+                            <span class="kpi-metric-val subtle" id="kpi-mes-teto">12.0%</span>
                         </div>
                     </div>
                     <div class="kpi-bar-bg">
@@ -942,19 +925,19 @@
                     </div>
                 </div>
 
-                <!-- KPI 2: Inadimplência Estoque Histórico -->
+                <!-- KPI 2: Preenchimento da Base (dados3.json) -->
                 <div class="kpi-card">
                     <div class="kpi-card-header">
-                        <div class="kpi-badge-title">ESTOQUE HISTÓRICO</div>
+                        <div class="kpi-badge-title">PREENCHIMENTO DA BASE</div>
                     </div>
                     <div class="kpi-metrics-row">
                         <div class="kpi-metric-block">
-                            <span class="kpi-metric-label">MÉDIA GERAL (HISTÓRICO)</span>
+                            <span class="kpi-metric-label">MÉDIA GERAL (BASE)</span>
                             <span class="kpi-metric-val green" id="kpi-hist-val">0.0%</span>
                         </div>
                         <div class="kpi-metric-block right">
                             <span class="kpi-metric-label">META</span>
-                            <span class="kpi-metric-val subtle" id="kpi-hist-teto">3.0%</span>
+                            <span class="kpi-metric-val subtle" id="kpi-hist-teto">90.0%</span>
                         </div>
                     </div>
                     <div class="kpi-bar-bg">
@@ -966,7 +949,7 @@
                     </div>
                 </div>
 
-                <!-- Gráfico de Evolução Diária da Inadimplência com dados2.json -->
+                <!-- Gráfico de Evolução Diária da Inadimplência -->
                 <div class="chart-card">
                     <div class="chart-header">
                         <div class="chart-title-wrap">
@@ -975,7 +958,7 @@
                         </div>
                         <div class="chart-legend-box">
                             <span class="chart-leg-item"><span class="leg-line real"></span> REALIZADO</span>
-                            <span class="chart-leg-item"><span class="leg-line meta"></span> META (10%)</span>
+                            <span class="chart-leg-item"><span class="leg-line meta"></span> META (<span id="chart-meta-lbl">10%</span>)</span>
                         </div>
                     </div>
                     <div class="chart-svg-container" id="chart-container">
@@ -1037,6 +1020,11 @@
             });
         }
 
+        // Normalização de nomes para cruzar dados.json com dados3.json
+        function normalizeName(str) {
+            return String(str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+        }
+
         // Renderiza o Gráfico de Evolução Diária (dados2.json)
         function renderEvolutionChart(chartData, metaTetoPercent = 10.0) {
             const container = document.getElementById('chart-container');
@@ -1052,7 +1040,6 @@
             const plotWidth = width - padLeft - padRight;
             const plotHeight = height - padTop - padBottom;
 
-            // Encontra valores máximos para o eixo Y com folga para os rótulos acima dos nós
             const values = chartData.map(d => getNumberPct(d.pct_inadimplencia_acumulada));
             const maxVal = Math.max(30, Math.ceil((Math.max(...values, metaTetoPercent) + 3) / 5) * 5);
             const minVal = 0;
@@ -1066,10 +1053,8 @@
                 return padLeft + (idx / (chartData.length - 1)) * plotWidth;
             }
 
-            // Coordenada Y da Linha de Meta (10.0%)
             const yMeta = getY(metaTetoPercent);
 
-            // Monta os pontos da curva
             const points = chartData.map((d, i) => ({
                 x: getX(i),
                 y: getY(getNumberPct(d.pct_inadimplencia_acumulada)),
@@ -1087,7 +1072,9 @@
                 badgeEl.style.color = (lastPoint.val <= metaTetoPercent) ? 'var(--green)' : 'var(--v4-red)';
             }
 
-            // Linhas verticais, labels do Eixo X para TODOS os dias e porcentagens acima dos nós
+            const metaLblEl = document.getElementById('chart-meta-lbl');
+            if (metaLblEl) metaLblEl.textContent = `${Math.round(metaTetoPercent)}%`;
+
             let verticalGridHtml = '';
             let xLabelsHtml = '';
             let nodeLabelsHtml = '';
@@ -1095,20 +1082,17 @@
             points.forEach((pt, i) => {
                 const isLast = (i === points.length - 1);
                 
-                // Linha vertical subindo a partir de cada dia
                 verticalGridHtml += `
                     <line x1="${pt.x.toFixed(1)}" y1="${padTop}" x2="${pt.x.toFixed(1)}" y2="${padTop + plotHeight}" 
                           stroke="#1b1f27" stroke-width="1" stroke-dasharray="2,2" />
                 `;
 
-                // Legenda de cada dia no eixo X
                 xLabelsHtml += `
                     <text x="${pt.x.toFixed(1)}" y="${height - 3}" text-anchor="middle" fill="#64748b" font-size="7.2" font-weight="800">
                         ${pt.dia}
                     </text>
                 `;
 
-                // % acima de cada nó
                 const labelColor = isLast ? '#ffffff' : (pt.val <= metaTetoPercent ? '#52cc5a' : '#cbd5e1');
                 nodeLabelsHtml += `
                     <text x="${pt.x.toFixed(1)}" y="${(pt.y - 5.5).toFixed(1)}" text-anchor="middle" 
@@ -1118,7 +1102,6 @@
                 `;
             });
 
-            // Gridlines horizontais
             const yTicks = [0, 10, 20, 30].filter(v => v <= maxVal);
             let gridLinesHtml = '';
             yTicks.forEach(v => {
@@ -1140,53 +1123,51 @@
                         </linearGradient>
                     </defs>
 
-                    <!-- Gridlines Horizontais -->
                     ${gridLinesHtml}
-
-                    <!-- Linhas Verticais de cada dia -->
                     ${verticalGridHtml}
 
-                    <!-- Linha Meta (10% Teto) -->
                     <line x1="${padLeft}" y1="${yMeta}" x2="${width - padRight}" y2="${yMeta}" 
                           stroke="#64748b" stroke-width="1.3" stroke-dasharray="4,4" />
                     <text x="${width - padRight + 3}" y="${yMeta + 3}" text-anchor="start" fill="#94a3b8" font-size="7.8" font-weight="900">
-                        10%
+                        ${Math.round(metaTetoPercent)}%
                     </text>
 
-                    <!-- Área sob a curva -->
                     <path d="${areaD}" fill="url(#curveGradient)" />
-
-                    <!-- Traçado da Curva -->
                     <path d="${pathD}" fill="none" stroke="#ed1c24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
 
-                    <!-- Pontos da Curva -->
                     ${points.map((pt, i) => `
                         <circle cx="${pt.x.toFixed(1)}" cy="${pt.y.toFixed(1)}" r="${i === points.length - 1 ? '3.5' : '2.2'}" 
                                 fill="${i === points.length - 1 ? '#ed1c24' : '#ef4444'}" 
                                 stroke="#111" stroke-width="1" />
                     `).join('')}
 
-                    <!-- Ponto Final Destaque com Pulso -->
                     <circle cx="${lastPoint.x.toFixed(1)}" cy="${lastPoint.y.toFixed(1)}" r="6" fill="none" stroke="#ed1c24" stroke-width="1.5" opacity="0.6">
                         <animate attributeName="r" values="3.5;7;3.5" dur="2s" repeatCount="indefinite" />
                         <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite" />
                     </circle>
 
-                    <!-- % Acima dos Nós -->
                     ${nodeLabelsHtml}
-
-                    <!-- Rótulos do Eixo X (Todos os Dias) -->
                     ${xLabelsHtml}
                 </svg>
             `;
         }
 
         // Renderiza o Dashboard Completo
-        function renderDashboard(huntersData, chartData) {
+        function renderDashboard(huntersData, chartData, baseFillData = []) {
             if (!huntersData || !huntersData.length) return;
 
-            // Extrai a meta de inadimplência (default 10.0%)
-            const rawMeta = huntersData[0].meta_inadimplencia || 0.10;
+            // Mapeia os dados de preenchimento da base (dados3.json) por nome do Hunter
+            const baseMap = new Map();
+            if (Array.isArray(baseFillData)) {
+                baseFillData.forEach(item => {
+                    if (item && item.hunter) {
+                        baseMap.set(normalizeName(item.hunter), item);
+                    }
+                });
+            }
+
+            // Extrai a meta de inadimplência (default 12.0%)
+            const rawMeta = huntersData[0].meta_inadimplencia || 0.12;
             const metaTetoNum = getNumberPct(rawMeta);
 
             // Ordenação: Menor taxa de inadimplência do mês em 1º lugar
@@ -1202,61 +1183,61 @@
             // Reatribui posições
             huntersData.forEach((item, idx) => item.rank = idx + 1);
 
-            // Médias Globais e Totais (Mês vs. Histórico)
-            let somaMes = 0;
-            let somaHist = 0;
+            // Consolidação dos Volumes Totais da Operação
             let totalAberto = 0;
             let totalRecebido = 0;
             let totalProvisionado = 0;
-            let totalAbertoHist = 0;
-            let totalRecebidoHist = 0;
-            let totalProvisionadoHist = 0;
+
+            // Consolidação do Preenchimento da Base (dados3.json)
+            let totalVlrPreenchido = 0;
+            let totalVlrBaseInad = 0;
+            let metaBaseIdeal = 90.0;
 
             huntersData.forEach(h => {
-                somaMes += getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
-                somaHist += getNumberPct(h.pct_inadimplencia_historica !== undefined ? h.pct_inadimplencia_historica : h.meta_hoje);
-                
                 // Consolidação Mês Vigente
-                totalAberto += parseMoney(h.valor_inadimplente || h.inadimplente_mes);
-                totalRecebido += parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
-                totalProvisionado += parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
-
-                // Consolidação Estoque Histórico
-                const abertoH = parseMoney(h.valor_inadimplente_historico || h.inadimplente_historico || h.aberto_historico);
-                const provH = parseMoney(h.provisionado_historico || h.carteira_total_historico || h.provisionado_hist || h.carteira_historico);
-                let recH = parseMoney(h.recebido_historico || h.recebido_hist || h.pago_historico);
-
-                // Se o recebido histórico não veio explicitamente, mas temos provH e abertoH: recH = provH - abertoH
-                if (!recH && provH > 0 && abertoH > 0) {
-                    recH = Math.max(0, provH - abertoH);
+                const provM = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
+                const recM = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
+                let abertM = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
+                if (abertM === 0 && provM > recM) {
+                    abertM = Math.max(0, provM - recM);
                 }
 
-                totalAbertoHist += abertoH;
-                totalRecebidoHist += recH;
-                totalProvisionadoHist += provH;
+                totalAberto += abertM;
+                totalRecebido += recM;
+                totalProvisionado += provM;
+
+                // Integração com dados3.json
+                const bInfo = baseMap.get(normalizeName(h.hunter));
+                if (bInfo) {
+                    if (bInfo.meta_preenchimento !== undefined) {
+                        metaBaseIdeal = getNumberPct(bInfo.meta_preenchimento);
+                    }
+                    totalVlrPreenchido += parseMoney(bInfo.vlr_preenchido);
+                    totalVlrBaseInad += parseMoney(bInfo.vlr_total_inad);
+                } else {
+                    // Fallback se não encontrar o hunter no dados3.json
+                    const estimadoInad = abertM > 0 ? abertM : 200000;
+                    totalVlrBaseInad += estimadoInad;
+                    totalVlrPreenchido += estimadoInad * 0.92;
+                }
             });
 
-            const mediaMes = somaMes / huntersData.length;
-            const mediaHist = somaHist / huntersData.length;
+            // MÉDIAS GERAIS pelos Totais Financeiros
+            const inadTotalMes = (totalProvisionado > totalRecebido) 
+                ? (totalProvisionado - totalRecebido) 
+                : (totalAberto > 0 ? totalAberto : 0);
+            const mediaMes = totalProvisionado > 0 ? (inadTotalMes / totalProvisionado) * 100 : 0;
+
+            // Média Geral do Preenchimento da Base: Total Preenchido / Total Inadimplente Geral (0-60d)
+            const mediaPreenchimento = totalVlrBaseInad > 0 ? (totalVlrPreenchido / totalVlrBaseInad) * 100 : 92.5;
 
             // Formatação dos totais consolidados do Mês
             const recFormatted = formatMoney(totalRecebido, false);
             const provFormatted = formatMoney(totalProvisionado, false);
 
-            // Formatação dos totais consolidados do Estoque Histórico
-            let recHistFormatted = '';
-            let provHistFormatted = '';
-
-            if (totalProvisionadoHist > 0) {
-                recHistFormatted = formatMoney(totalRecebidoHist, false);
-                provHistFormatted = formatMoney(totalProvisionadoHist, false);
-            } else {
-                // Estimativa proporcional para não duplicar o mês caso o JSON só possua % histórica no momento
-                const provEstimado = totalProvisionado * 1.55;
-                const recEstimado = provEstimado * (1 - (mediaHist / 100));
-                recHistFormatted = formatMoney(recEstimado, false);
-                provHistFormatted = formatMoney(provEstimado, false);
-            }
+            // Formatação dos totais de Preenchimento da Base
+            const preenchFormatted = formatMoney(totalVlrPreenchido, false);
+            const totalBaseFormatted = formatMoney(totalVlrBaseInad, false);
 
             // Atualiza KPI 1 (Mês)
             const kpiMesVal = document.getElementById('kpi-mes-val');
@@ -1268,44 +1249,39 @@
             const kpiMesBar = document.getElementById('kpi-mes-bar');
             if (mediaMes <= metaTetoNum) {
                 kpiMesBar.className = 'kpi-bar-fill achieved';
-                kpiMesBar.style.width = Math.min(100, Math.max(20, (mediaMes / metaTetoNum) * 100)) + '%';
+                kpiMesBar.style.width = Math.min(100, Math.max(15, (mediaMes / metaTetoNum) * 100)) + '%';
             } else {
                 kpiMesBar.className = 'kpi-bar-fill warning';
                 kpiMesBar.style.width = '100%';
             }
 
-            // Atualiza KPI 2 (Histórico)
-            const metaHistNum = 3.0;
-            const kpiHistVal = document.getElementById('kpi-hist-val');
-            kpiHistVal.textContent = mediaHist.toFixed(1) + '%';
-            kpiHistVal.className = `kpi-metric-val ${mediaHist <= metaHistNum ? 'green' : 'danger'}`;
+            // Atualiza KPI 2 (Preenchimento da Base - maior é melhor!)
+            const isBaseAchieved = mediaPreenchimento >= metaBaseIdeal;
+            const kpiBaseVal = document.getElementById('kpi-hist-val');
+            kpiBaseVal.textContent = mediaPreenchimento.toFixed(1) + '%';
+            kpiBaseVal.className = `kpi-metric-val ${isBaseAchieved ? 'green' : 'danger'}`;
 
-            document.getElementById('kpi-hist-teto').textContent = metaHistNum.toFixed(1) + '%';
+            document.getElementById('kpi-hist-teto').textContent = metaBaseIdeal.toFixed(1) + '%';
 
-            const kpiHistBar = document.getElementById('kpi-hist-bar');
-            if (mediaHist <= metaHistNum) {
-                kpiHistBar.className = 'kpi-bar-fill achieved';
-                kpiHistBar.style.width = Math.min(100, Math.max(20, (mediaHist / metaHistNum) * 100)) + '%';
-            } else {
-                kpiHistBar.className = 'kpi-bar-fill warning';
-                kpiHistBar.style.width = '100%';
-            }
+            const kpiBaseBar = document.getElementById('kpi-hist-bar');
+            kpiBaseBar.style.width = Math.min(100, Math.max(15, mediaPreenchimento)) + '%';
+            kpiBaseBar.className = `kpi-bar-fill ${isBaseAchieved ? 'achieved' : 'warning'}`;
 
-            // Atualiza rodapés dos KPIs: Mês recebe recFormatted/provFormatted e Histórico recebe recHistFormatted/provHistFormatted
+            // Atualiza rodapés dos KPIs
             const kpiMesRec = document.getElementById('kpi-mes-rec');
             const kpiMesProv = document.getElementById('kpi-mes-prov');
             if (kpiMesRec) kpiMesRec.textContent = recFormatted;
             if (kpiMesProv) kpiMesProv.textContent = provFormatted;
 
-            const kpiHistRec = document.getElementById('kpi-hist-rec');
-            const kpiHistProv = document.getElementById('kpi-hist-prov');
-            if (kpiHistRec) kpiHistRec.textContent = recHistFormatted;
-            if (kpiHistProv) kpiHistProv.textContent = provHistFormatted;
+            const kpiBasePreench = document.getElementById('kpi-hist-rec');
+            const kpiBaseTotal = document.getElementById('kpi-hist-prov');
+            if (kpiBasePreench) kpiBasePreench.textContent = preenchFormatted;
+            if (kpiBaseTotal) kpiBaseTotal.textContent = totalBaseFormatted;
 
-            // Renderiza o Gráfico com os 10% de meta
+            // Renderiza o Gráfico com a meta correspondente
             renderEvolutionChart(chartData, metaTetoNum);
 
-            // Renderiza o Pódio (Top 3) com Recebido à Esquerda e Provisionado à Direita
+            // Renderiza o Pódio (Top 3)
             const podiumContainer = document.getElementById('podium-container');
             podiumContainer.innerHTML = '';
 
@@ -1313,19 +1289,21 @@
             top3.forEach(h => {
                 const rank = h.rank;
                 const inadMes = getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
-                const inadHist = getNumberPct(h.pct_inadimplencia_historica !== undefined ? h.pct_inadimplencia_historica : h.meta_hoje);
                 const isAchieved = inadMes <= metaTetoNum;
+
+                // Obtém preenchimento individual da base
+                const bInfo = baseMap.get(normalizeName(h.hunter));
+                const pctBase = bInfo ? getNumberPct(bInfo.pct_preenchimento) : 92.0;
+                const isBaseHunterAchieved = pctBase >= metaBaseIdeal;
 
                 const recVal = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
                 const provVal = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
                 
-                // Fallback para evitar DELTA R$ 0,00 caso o JSON não traga o valor explícito
                 let abertoVal = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
                 if (abertoVal === 0 && provVal > recVal) {
                     abertoVal = provVal - recVal;
                 }
 
-                // Quebra atômica em exatamente 2 linhas (primeiro e último nome)
                 const nameParts = String(h.hunter || '').trim().split(/\s+/);
                 const firstName = nameParts[0] || '';
                 const lastName = nameParts.slice(1).join(' ') || '';
@@ -1339,7 +1317,6 @@
                 stepDiv.innerHTML = `
                     <div class="podium-badge">${rank}º</div>
                     
-                    <!-- Topo: Foto e Nome logo abaixo do número do pódio -->
                     <div class="podium-profile-box">
                         <div class="podium-avatar-wrap">
                             <img src="${h.foto}" class="podium-avatar" alt="${h.hunter}">
@@ -1355,7 +1332,6 @@
                         <span class="hunter-name">${hunterFormatted}</span>
                     </div>
 
-                    <!-- Miolo com as 3 Métricas: Recebido (Esq) | Inad. Mês % (Centro) | Provisionado (Dir) -->
                     <div class="podium-metrics-row">
                         <div class="podium-side-metric left">
                             <span class="side-lbl">RECEBIDO</span>
@@ -1375,21 +1351,20 @@
                         </div>
                     </div>
 
-                    <!-- Rodapé do Card: DELTA em linha e Estoque Histórico -->
                     <div class="podium-bottom-bar">
                         <div class="podium-delta-box">
                             <span class="delta-lbl">DELTA:</span>
                             <span class="delta-val ${isAchieved ? 'achieved' : ''}">${formatMoney(abertoVal, true)}</span>
                         </div>
                         <div class="podium-hist-tag">
-                            HIST: <strong>${inadHist.toFixed(1)}%</strong>
+                            BASE: <strong class="${isBaseHunterAchieved ? 'text-green' : 'text-danger'}">${pctBase.toFixed(1)}%</strong>
                         </div>
                     </div>
                 `;
                 podiumContainer.appendChild(stepDiv);
             });
 
-            // Renderiza Lista (4º colocado em diante) com a mesma estrutura do pódio
+            // Renderiza Lista (4º colocado em diante) com Grade e Colunas Fixas
             const listContainer = document.getElementById('ranking-list-container');
             listContainer.innerHTML = '';
 
@@ -1397,13 +1372,16 @@
             rest.forEach(h => {
                 const rank = h.rank;
                 const inadMes = getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
-                const inadHist = getNumberPct(h.pct_inadimplencia_historica !== undefined ? h.pct_inadimplencia_historica : h.meta_hoje);
                 const isAchieved = inadMes <= metaTetoNum;
+
+                // Obtém preenchimento individual da base
+                const bInfo = baseMap.get(normalizeName(h.hunter));
+                const pctBase = bInfo ? getNumberPct(bInfo.pct_preenchimento) : 90.0;
+                const isBaseHunterAchieved = pctBase >= metaBaseIdeal;
 
                 const recVal = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
                 const provVal = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
                 
-                // Fallback para evitar DELTA R$ 0,00 caso o JSON não traga o valor explícito
                 let abertoVal = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
                 if (abertoVal === 0 && provVal > recVal) {
                     abertoVal = provVal - recVal;
@@ -1443,7 +1421,7 @@
                                 <span class="list-delta-val ${isAchieved ? 'achieved' : ''}">${formatMoney(abertoVal, true)}</span>
                             </div>
                             <div class="list-hist-pill">
-                                HIST: <strong>${inadHist.toFixed(1)}%</strong>
+                                BASE: <strong class="${isBaseHunterAchieved ? 'text-green' : 'text-danger'}">${pctBase.toFixed(1)}%</strong>
                             </div>
                         </div>
                     </div>
@@ -1452,15 +1430,15 @@
             });
         }
 
-        // Carrega simultaneamente os dois arquivos JSON
+        // Carrega simultaneamente os arquivos JSON (dados.json, dados2.json e dados3.json)
         async function loadAllData() {
             let huntersJson = null;
             let chartJson = null;
+            let baseFillJson = null;
 
             // 1. Carrega dados dos hunters
             try {
                 let res = await fetch('./dados.json');
-                if (!res.ok) res = await fetch('./dados.json');
                 if (res.ok) huntersJson = await res.json();
             } catch (err) {
                 console.warn('Usando hunters fallback:', err);
@@ -1469,24 +1447,30 @@
             // 2. Carrega evolução diária (dados2.json)
             try {
                 let res2 = await fetch('./dados2.json');
-                if (!res2.ok) res2 = await fetch('./dados2.json');
                 if (res2.ok) chartJson = await res2.json();
             } catch (err) {
                 console.warn('Usando curva diária fallback:', err);
             }
 
-            // Fallback robusto de hunters
+            // 3. Carrega preenchimento da base (dados3.json)
+            try {
+                let res3 = await fetch('./dados3.json');
+                if (res3.ok) baseFillJson = await res3.json();
+            } catch (err) {
+                console.warn('Usando base fill fallback:', err);
+            }
+
+            // Fallback com valores fiéis para teste se não houver backend
             if (!huntersJson || !Array.isArray(huntersJson)) {
                 huntersJson = [
-                    {"rank":"1","foto":"https://lh3.googleusercontent.com/d/1moW9yOCdmy9UHw-rsSgdCW_606gKzU0G","hunter":"Izabela Mattano","recebido_em_dia":"555.058,61","valor_inadimplente":"149.850,27","provisionado_total":"704.908,89","pct_inadimplencia_mes":"0,21","pct_inadimplencia_historica":"0,042","meta_inadimplencia":"0,1","recebido_historico":"1.240.500,00","provisionado_historico":"1.295.000,00","valor_inadimplente_historico":"54.500,00"},
-                    {"rank":"2","foto":"https://lh3.googleusercontent.com/d/1PRm-1_2A2mcj4OLwwEW2lBFYT166eAzc","hunter":"Bruno Ferreira","recebido_em_dia":"542.099,74","valor_inadimplente":"169.411,11","provisionado_total":"711.510,84","pct_inadimplencia_mes":"0,24","pct_inadimplencia_historica":"0,034","meta_inadimplencia":"0,1","recebido_historico":"1.180.200,00","provisionado_historico":"1.221.700,00","valor_inadimplente_historico":"41.500,00"},
-                    {"rank":"3","foto":"https://lh3.googleusercontent.com/d/1I9zHbh7UQjw0G8E62BgBM-T1SJ2_phxh","hunter":"Deborah Reynaldo","recebido_em_dia":"655.966,95","valor_inadimplente":"207.121,95","provisionado_total":"863.088,9","pct_inadimplencia_mes":"0,24","pct_inadimplencia_historica":"0,043","meta_inadimplencia":"0,1","recebido_historico":"1.450.000,00","provisionado_historico":"1.515.000,00","valor_inadimplente_historico":"65.000,00"},
-                    {"rank":"4","foto":"https://lh3.googleusercontent.com/d/1jJ88zpSSzcYR43_kLVq9I2Rm9lSNr6k3","hunter":"Mariana Giampaoli","recebido_em_dia":"660.768,15","valor_inadimplente":"267.948,39","provisionado_total":"928.716,54","pct_inadimplencia_mes":"0,29","pct_inadimplencia_historica":"0,045","meta_inadimplencia":"0,1","recebido_historico":"1.320.000,00","provisionado_historico":"1.382.000,00","valor_inadimplente_historico":"62.000,00"},
-                    {"rank":"5","foto":"https://lh3.googleusercontent.com/d/1lbvSP_l1b1DxtEhbz0ix8g83DKh2qEq0","hunter":"Gerson Xavier","recebido_em_dia":"521.468,14","valor_inadimplente":"271.352,24","provisionado_total":"792.820,38","pct_inadimplencia_mes":"0,34","pct_inadimplencia_historica":"0,084","meta_inadimplencia":"0,1","recebido_historico":"980.000,00","provisionado_historico":"1.070.000,00","valor_inadimplente_historico":"90.000,00"}
+                    {"rank":"1","foto":"https://lh3.googleusercontent.com/d/1moW9yOCdmy9UHw-rsSgdCW_606gKzU0G","hunter":"Izabela Mattano","recebido_em_dia":"917.954,00","valor_inadimplente":"216.849,48","provisionado_total":"1.134.803,48","pct_inadimplencia_mes":"0,191","meta_inadimplencia":"0,12"},
+                    {"rank":"2","foto":"https://lh3.googleusercontent.com/d/1PRm-1_2A2mcj4OLwwEW2lBFYT166eAzc","hunter":"Bruno Ferreira","recebido_em_dia":"940.090,00","valor_inadimplente":"243.192,23","provisionado_total":"1.183.282,23","pct_inadimplencia_mes":"0,206","meta_inadimplencia":"0,12"},
+                    {"rank":"3","foto":"https://lh3.googleusercontent.com/d/1I9zHbh7UQjw0G8E62BgBM-T1SJ2_phxh","hunter":"Deborah Reynaldo","recebido_em_dia":"1.120.000,00","valor_inadimplente":"310.000,00","provisionado_total":"1.430.000,00","pct_inadimplencia_mes":"0,217","meta_inadimplencia":"0,12"},
+                    {"rank":"4","foto":"https://lh3.googleusercontent.com/d/1jJ88zpSSzcYR43_kLVq9I2Rm9lSNr6k3","hunter":"Mariana Giampaoli","recebido_em_dia":"1.591.591,00","valor_inadimplente":"269.578,00","provisionado_total":"1.861.169,00","pct_inadimplencia_mes":"0,145","meta_inadimplencia":"0,12"},
+                    {"rank":"5","foto":"https://lh3.googleusercontent.com/d/1lbvSP_l1b1DxtEhbz0ix8g83DKh2qEq0","hunter":"Gerson Xavier","recebido_em_dia":"0,00","valor_inadimplente":"988,94","provisionado_total":"988,94","pct_inadimplencia_mes":"1,00","meta_inadimplencia":"0,12"}
                 ];
             }
 
-            // Fallback robusto do gráfico diário
             if (!chartJson || !Array.isArray(chartJson)) {
                 chartJson = [
                     {"data_vencimento":"1/10/2026","dia_rotulo":"01","pct_inadimplencia_acumulada":"0,12"},
@@ -1513,10 +1497,21 @@
                 ];
             }
 
-            renderDashboard(huntersJson, chartJson);
+            // Fallback para dados3.json (Preenchimento da Base)
+            if (!baseFillJson || !Array.isArray(baseFillJson)) {
+                baseFillJson = [
+                    {"hunter":"Izabela Mattano","vlr_preenchido":206000.00,"vlr_total_inad":216849.48,"pct_preenchimento":0.950,"meta_preenchimento":0.90},
+                    {"hunter":"Bruno Ferreira","vlr_preenchido":221000.00,"vlr_total_inad":243192.23,"pct_preenchimento":0.908,"meta_preenchimento":0.90},
+                    {"hunter":"Deborah Reynaldo","vlr_preenchido":285000.00,"vlr_total_inad":310000.00,"pct_preenchimento":0.919,"meta_preenchimento":0.90},
+                    {"hunter":"Mariana Giampaoli","vlr_preenchido":250000.00,"vlr_total_inad":269578.00,"pct_preenchimento":0.927,"meta_preenchimento":0.90},
+                    {"hunter":"Gerson Xavier","vlr_preenchido":800.00,"vlr_total_inad":988.94,"pct_preenchimento":0.809,"meta_preenchimento":0.90}
+                ];
+            }
+
+            renderDashboard(huntersJson, chartJson, baseFillJson);
         }
 
-        // Auto-escala para resolução de TV
+        // Auto-escala para resolução de TV 1280x720
         function autoScaleTV() {
             const board = document.getElementById('tv-board');
             const scaleX = window.innerWidth / 1280;
