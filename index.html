@@ -624,53 +624,138 @@
 
         .podium-bottom-bar {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             background: #0d0d0f;
             border: 1px solid #1f1f23;
-            padding: 4px 8px;
+            padding: 5px 8px;
             width: 100%;
+            height: 42px;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            gap: 4px;
+        }
+
+        .bar-main-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            width: 100%;
+        }
+
+        /* Barra de Preenchimento de 100% (segmentos limpos sem texto interno) */
+        .mini-progress-bg {
+            background: #181818;
+            height: 12px;
+            flex: 1 1 0;
+            min-width: 60px;
+            border: 1px solid #28282c;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .mini-progress-segment {
+            height: 100%;
+            transition: width 0.8s ease-in-out;
+            user-select: none;
+            flex-shrink: 0;
+            box-sizing: border-box;
+        }
+
+        /* Matriz: Vermelho forte oficial da V4 */
+        .seg-mtz {
+            background: var(--v4-red);
+            box-shadow: 0 0 10px var(--v4-red-glow);
+        }
+
+        /* Rede: Vermelho mais fechado e apagado */
+        .seg-rde {
+            background: #7a161a;
+            border-left: 1px solid #111;
+        }
+
+        /* Sem Preenchimento: Neutro escuro */
+        .seg-sem {
+            background: #18181b;
+            border-left: 1px solid #111;
+        }
+
+        .bar-total-pct {
+            font-size: 0.90em;
+            font-weight: 900;
+            white-space: nowrap;
+            letter-spacing: -0.3px;
             flex-shrink: 0;
         }
 
-        .podium-delta-box {
-            display: flex;
-            align-items: baseline;
-            gap: 5px;
-        }
-
-        .delta-lbl {
-            font-size: 0.60em;
-            font-weight: 900;
-            color: #94a3b8;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .delta-val {
-            font-size: 0.84em;
-            font-weight: 900;
-            color: var(--v4-red);
-            white-space: nowrap;
-        }
-
-        .delta-val.achieved {
-            color: var(--green);
-        }
-
-        .podium-hist-tag {
-            font-size: 0.60em;
+        /* Linha de Legenda e Volumes Financeiros em Grid de 3 Colunas Rigorosamente Alinhadas */
+        .bar-legend-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            width: 100%;
+            font-size: 0.56em;
             font-weight: 800;
-            color: #94a3b8;
+            letter-spacing: 0.15px;
             text-transform: uppercase;
-            white-space: nowrap;
-            background: #151515;
-            padding: 2px 6px;
-            border: 1px solid #2a2a2a;
+            line-height: 1;
+            align-items: center;
         }
 
-        .podium-hist-tag strong {
-            color: #e2e8f0;
+        .bar-leg-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            white-space: nowrap;
+        }
+
+        .bar-leg-item.left {
+            justify-self: start;
+        }
+
+        .bar-leg-item.center {
+            justify-self: center;
+        }
+
+        .bar-leg-item.right {
+            justify-self: end;
+        }
+
+        .leg-color-dot {
+            width: 5px;
+            height: 5px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .leg-color-dot.dot-mtz {
+            background: var(--v4-red);
+            box-shadow: 0 0 4px var(--v4-red-glow);
+        }
+
+        .leg-color-dot.dot-rde {
+            background: #7a161a;
+        }
+
+        .leg-color-dot.dot-sem {
+            background: #3f3f46;
+        }
+
+        .leg-label {
+            color: #71717a;
+            font-weight: 800;
+            font-size: 1em;
+            line-height: 1;
+        }
+
+        .leg-val {
+            color: #f4f4f5;
+            font-weight: 900;
+            font-size: 1em;
+            line-height: 1;
+            letter-spacing: -0.2px;
         }
 
         /* LISTA: 4º COLOCADO EM DIANTE (Grid com Colunas Fixas) */
@@ -690,7 +775,7 @@
 
         .ranking-card {
             flex: 0 0 auto;
-            height: 66px;
+            height: 68px;
             background: linear-gradient(180deg, #101012 0%, #060608 100%);
             padding: 0 16px;
             display: flex;
@@ -755,8 +840,8 @@
         /* Grade de Métricas Alinhadas Rigorosamente por Colunas Fixas */
         .list-metrics-grid {
             display: grid;
-            grid-template-columns: 140px 105px 145px 250px;
-            gap: 20px;
+            grid-template-columns: 125px 95px 130px 320px;
+            gap: 14px;
             align-items: center;
             justify-content: end;
             flex-shrink: 0;
@@ -825,59 +910,19 @@
             letter-spacing: -0.4px;
         }
 
-        /* Cápsula DELTA e HIST com Largura e Posicionamento Travados */
+        /* Cápsula de Preenchimento da Base com Largura Fixa de 320px */
         .list-capsule-bar {
-            width: 250px;
-            box-sizing: border-box;
+            width: 325px;
+            height: 46px;
+            padding: 5px 8px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
+            gap: 4px;
             background: #0d0d0f;
             border: 1px solid #1f1f23;
-            padding: 6px 12px;
+            box-sizing: border-box;
             flex-shrink: 0;
-        }
-
-        .list-delta-box {
-            display: flex;
-            align-items: baseline;
-            gap: 5px;
-            min-width: 0;
-        }
-
-        .list-delta-lbl {
-            font-size: 0.60em;
-            font-weight: 900;
-            color: #94a3b8;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-        }
-
-        .list-delta-val {
-            font-size: 0.88em;
-            font-weight: 900;
-            color: var(--v4-red);
-            white-space: nowrap;
-        }
-
-        .list-delta-val.achieved {
-            color: var(--green);
-        }
-
-        .list-hist-pill {
-            font-size: 0.60em;
-            font-weight: 800;
-            color: #94a3b8;
-            text-transform: uppercase;
-            white-space: nowrap;
-            background: #151515;
-            padding: 2px 7px;
-            border: 1px solid #2a2a2a;
-            flex-shrink: 0;
-        }
-
-        .list-hist-pill strong {
-            color: #e2e8f0;
         }
 
         .text-green { color: var(--green) !important; }
@@ -1206,7 +1251,7 @@
                 totalRecebido += recM;
                 totalProvisionado += provM;
 
-                // Integração com dados3.json
+                // Integração com dados3.json (Totais Financeiros de Preenchimento)
                 const bInfo = baseMap.get(normalizeName(h.hunter));
                 if (bInfo) {
                     if (bInfo.meta_preenchimento !== undefined) {
@@ -1215,7 +1260,6 @@
                     totalVlrPreenchido += parseMoney(bInfo.vlr_preenchido);
                     totalVlrBaseInad += parseMoney(bInfo.vlr_total_inad);
                 } else {
-                    // Fallback se não encontrar o hunter no dados3.json
                     const estimadoInad = abertM > 0 ? abertM : 200000;
                     totalVlrBaseInad += estimadoInad;
                     totalVlrPreenchido += estimadoInad * 0.92;
@@ -1228,16 +1272,16 @@
                 : (totalAberto > 0 ? totalAberto : 0);
             const mediaMes = totalProvisionado > 0 ? (inadTotalMes / totalProvisionado) * 100 : 0;
 
-            // Média Geral do Preenchimento da Base: Total Preenchido / Total Inadimplente Geral (0-60d)
+            // Média Geral do Preenchimento da Base (Total Preenchido / Total Inadimplente)
             const mediaPreenchimento = totalVlrBaseInad > 0 ? (totalVlrPreenchido / totalVlrBaseInad) * 100 : 92.5;
 
             // Formatação dos totais consolidados do Mês
             const recFormatted = formatMoney(totalRecebido, false);
             const provFormatted = formatMoney(totalProvisionado, false);
 
-            // Formatação dos totais de Preenchimento da Base
+            // Formatação dos totais consolidados do Preenchimento da Base (Volume Financeiro em R$)
             const preenchFormatted = formatMoney(totalVlrPreenchido, false);
-            const totalBaseFormatted = formatMoney(totalVlrBaseInad, false);
+            const totalInadBaseFormatted = formatMoney(totalVlrBaseInad, false);
 
             // Atualiza KPI 1 (Mês)
             const kpiMesVal = document.getElementById('kpi-mes-val');
@@ -1255,7 +1299,7 @@
                 kpiMesBar.style.width = '100%';
             }
 
-            // Atualiza KPI 2 (Preenchimento da Base - maior é melhor!)
+            // Atualiza KPI 2 (Preenchimento da Base)
             const isBaseAchieved = mediaPreenchimento >= metaBaseIdeal;
             const kpiBaseVal = document.getElementById('kpi-hist-val');
             kpiBaseVal.textContent = mediaPreenchimento.toFixed(1) + '%';
@@ -1273,15 +1317,22 @@
             if (kpiMesRec) kpiMesRec.textContent = recFormatted;
             if (kpiMesProv) kpiMesProv.textContent = provFormatted;
 
-            const kpiBasePreench = document.getElementById('kpi-hist-rec');
-            const kpiBaseTotal = document.getElementById('kpi-hist-prov');
-            if (kpiBasePreench) kpiBasePreench.textContent = preenchFormatted;
-            if (kpiBaseTotal) kpiBaseTotal.textContent = totalBaseFormatted;
+            // Rodapé do KPI 2 mantido em volume financeiro: Preenchido (verde) e Total Inadimplente (light)
+            const kpiHistRec = document.getElementById('kpi-hist-rec');
+            const kpiHistProv = document.getElementById('kpi-hist-prov');
+            if (kpiHistRec) {
+                kpiHistRec.textContent = preenchFormatted;
+                kpiHistRec.className = 'green';
+            }
+            if (kpiHistProv) {
+                kpiHistProv.textContent = totalInadBaseFormatted;
+                kpiHistProv.className = 'light';
+            }
 
             // Renderiza o Gráfico com a meta correspondente
             renderEvolutionChart(chartData, metaTetoNum);
 
-            // Renderiza o Pódio (Top 3)
+            // Renderiza o Pódio (Top 3) com Barra Única e Selos Lado a Lado
             const podiumContainer = document.getElementById('podium-container');
             podiumContainer.innerHTML = '';
 
@@ -1291,18 +1342,36 @@
                 const inadMes = getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
                 const isAchieved = inadMes <= metaTetoNum;
 
-                // Obtém preenchimento individual da base
-                const bInfo = baseMap.get(normalizeName(h.hunter));
-                const pctBase = bInfo ? getNumberPct(bInfo.pct_preenchimento) : 92.0;
-                const isBaseHunterAchieved = pctBase >= metaBaseIdeal;
-
                 const recVal = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
                 const provVal = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
-                
-                let abertoVal = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
-                if (abertoVal === 0 && provVal > recVal) {
-                    abertoVal = provVal - recVal;
+
+                // Preenchimento Total e Segmentação (Rede + Matriz + Sem Preenchimento = 100%)
+                const bInfo = baseMap.get(normalizeName(h.hunter));
+                let vlrMtz = 0;
+                let vlrRde = 0;
+                let vlrTotalInad = 0;
+                let vlrSem = 0;
+
+                if (bInfo) {
+                    vlrMtz = parseMoney(bInfo.vlr_preenchido_matriz);
+                    vlrRde = parseMoney(bInfo.vlr_preenchido_rede);
+                    vlrTotalInad = parseMoney(bInfo.vlr_total_inad);
+                    vlrSem = bInfo.vlr_sem_preenchimento !== undefined 
+                        ? parseMoney(bInfo.vlr_sem_preenchimento) 
+                        : Math.max(0, vlrTotalInad - vlrMtz - vlrRde);
+                } else {
+                    vlrTotalInad = Math.max(0, provVal - recVal);
+                    vlrMtz = vlrTotalInad * 0.09;
+                    vlrRde = vlrTotalInad * 0.20;
+                    vlrSem = Math.max(0, vlrTotalInad - vlrMtz - vlrRde);
                 }
+
+                const pctRede = bInfo ? getNumberPct(bInfo.pct_preenchimento_rede) : (vlrTotalInad > 0 ? (vlrRde / vlrTotalInad) * 100 : 20.0);
+                const pctMatriz = bInfo ? getNumberPct(bInfo.pct_preenchimento_matriz) : (vlrTotalInad > 0 ? (vlrMtz / vlrTotalInad) * 100 : 9.0);
+                const pctTotal = bInfo ? getNumberPct(bInfo.pct_preenchimento) : (pctRede + pctMatriz);
+                const pctSem = Math.max(0, 100 - pctRede - pctMatriz);
+
+                const isTotalAchieved = pctTotal >= metaBaseIdeal;
 
                 const nameParts = String(h.hunter || '').trim().split(/\s+/);
                 const firstName = nameParts[0] || '';
@@ -1351,20 +1420,27 @@
                         </div>
                     </div>
 
+                    <!-- Rodapé: Barra limpa com volumes financeiros abaixo -->
                     <div class="podium-bottom-bar">
-                        <div class="podium-delta-box">
-                            <span class="delta-lbl">DELTA:</span>
-                            <span class="delta-val ${isAchieved ? 'achieved' : ''}">${formatMoney(abertoVal, true)}</span>
+                        <div class="bar-main-row">
+                            <div class="mini-progress-bg">
+                                ${pctMatriz > 0 ? `<div class="mini-progress-segment seg-mtz" style="width: ${pctMatriz.toFixed(1)}%;" title="Matriz: ${formatMoney(vlrMtz)} (${pctMatriz.toFixed(1)}%)"></div>` : ''}
+                                ${pctRede > 0 ? `<div class="mini-progress-segment seg-rde" style="width: ${pctRede.toFixed(1)}%;" title="Rede: ${formatMoney(vlrRde)} (${pctRede.toFixed(1)}%)"></div>` : ''}
+                                ${pctSem > 0 ? `<div class="mini-progress-segment seg-sem" style="width: ${pctSem.toFixed(1)}%;" title="Sem preenchimento: ${formatMoney(vlrSem)} (${pctSem.toFixed(1)}%)"></div>` : ''}
+                            </div>
+                            <span class="bar-total-pct ${isTotalAchieved ? 'text-green' : 'text-danger'}">${pctTotal.toFixed(0)}%</span>
                         </div>
-                        <div class="podium-hist-tag">
-                            BASE: <strong class="${isBaseHunterAchieved ? 'text-green' : 'text-danger'}">${pctBase.toFixed(1)}%</strong>
+                        <div class="bar-legend-row">
+                            <span class="bar-leg-item left"><span class="leg-color-dot dot-mtz"></span><span class="leg-label">MATRIZ</span> <span class="leg-val">${formatMoney(vlrMtz)}</span></span>
+                            <span class="bar-leg-item center"><span class="leg-color-dot dot-rde"></span><span class="leg-label">REDE</span> <span class="leg-val">${formatMoney(vlrRde)}</span></span>
+                            <span class="bar-leg-item right"><span class="leg-color-dot dot-sem"></span><span class="leg-label">S/P</span> <span class="leg-val">${formatMoney(vlrSem)}</span></span>
                         </div>
                     </div>
                 `;
                 podiumContainer.appendChild(stepDiv);
             });
 
-            // Renderiza Lista (4º colocado em diante) com Grade e Colunas Fixas
+            // Renderiza Lista (4º colocado em diante) com Barra e Legendas Abaixo
             const listContainer = document.getElementById('ranking-list-container');
             listContainer.innerHTML = '';
 
@@ -1374,18 +1450,36 @@
                 const inadMes = getNumberPct(h.pct_inadimplencia_mes !== undefined ? h.pct_inadimplencia_mes : h.realizado);
                 const isAchieved = inadMes <= metaTetoNum;
 
-                // Obtém preenchimento individual da base
-                const bInfo = baseMap.get(normalizeName(h.hunter));
-                const pctBase = bInfo ? getNumberPct(bInfo.pct_preenchimento) : 90.0;
-                const isBaseHunterAchieved = pctBase >= metaBaseIdeal;
-
                 const recVal = parseMoney(h.recebido_em_dia || h.recebido || h.recebido_mes);
                 const provVal = parseMoney(h.provisionado_total || h.provisionado || h.provisionado_mes);
-                
-                let abertoVal = parseMoney(h.valor_inadimplente || h.inadimplente_mes || h.inadimplente || h.aberto || h.dif);
-                if (abertoVal === 0 && provVal > recVal) {
-                    abertoVal = provVal - recVal;
+
+                // Preenchimento Total e Segmentação (Rede + Matriz + Sem Preenchimento = 100%)
+                const bInfo = baseMap.get(normalizeName(h.hunter));
+                let vlrMtz = 0;
+                let vlrRde = 0;
+                let vlrTotalInad = 0;
+                let vlrSem = 0;
+
+                if (bInfo) {
+                    vlrMtz = parseMoney(bInfo.vlr_preenchido_matriz);
+                    vlrRde = parseMoney(bInfo.vlr_preenchido_rede);
+                    vlrTotalInad = parseMoney(bInfo.vlr_total_inad);
+                    vlrSem = bInfo.vlr_sem_preenchimento !== undefined 
+                        ? parseMoney(bInfo.vlr_sem_preenchimento) 
+                        : Math.max(0, vlrTotalInad - vlrMtz - vlrRde);
+                } else {
+                    vlrTotalInad = Math.max(0, provVal - recVal);
+                    vlrMtz = vlrTotalInad * 0.09;
+                    vlrRde = vlrTotalInad * 0.20;
+                    vlrSem = Math.max(0, vlrTotalInad - vlrMtz - vlrRde);
                 }
+
+                const pctRede = bInfo ? getNumberPct(bInfo.pct_preenchimento_rede) : (vlrTotalInad > 0 ? (vlrRde / vlrTotalInad) * 100 : 20.0);
+                const pctMatriz = bInfo ? getNumberPct(bInfo.pct_preenchimento_matriz) : (vlrTotalInad > 0 ? (vlrMtz / vlrTotalInad) * 100 : 9.0);
+                const pctTotal = bInfo ? getNumberPct(bInfo.pct_preenchimento) : (pctRede + pctMatriz);
+                const pctSem = Math.max(0, 100 - pctRede - pctMatriz);
+
+                const isTotalAchieved = pctTotal >= metaBaseIdeal;
 
                 const cardDiv = document.createElement('div');
                 cardDiv.className = 'ranking-card';
@@ -1415,13 +1509,20 @@
                             <span class="list-metric-val light">${formatMoney(provVal, false)}</span>
                         </div>
 
+                        <!-- Cápsula com barra limpa e legenda com volumes financeiros abaixo -->
                         <div class="list-capsule-bar">
-                            <div class="list-delta-box">
-                                <span class="list-delta-lbl">DELTA:</span>
-                                <span class="list-delta-val ${isAchieved ? 'achieved' : ''}">${formatMoney(abertoVal, true)}</span>
+                            <div class="bar-main-row">
+                                <div class="mini-progress-bg">
+                                    ${pctMatriz > 0 ? `<div class="mini-progress-segment seg-mtz" style="width: ${pctMatriz.toFixed(1)}%;" title="Matriz: ${formatMoney(vlrMtz)} (${pctMatriz.toFixed(1)}%)"></div>` : ''}
+                                    ${pctRede > 0 ? `<div class="mini-progress-segment seg-rde" style="width: ${pctRede.toFixed(1)}%;" title="Rede: ${formatMoney(vlrRde)} (${pctRede.toFixed(1)}%)"></div>` : ''}
+                                    ${pctSem > 0 ? `<div class="mini-progress-segment seg-sem" style="width: ${pctSem.toFixed(1)}%;" title="Sem preenchimento: ${formatMoney(vlrSem)} (${pctSem.toFixed(1)}%)"></div>` : ''}
+                                </div>
+                                <span class="bar-total-pct ${isTotalAchieved ? 'text-green' : 'text-danger'}">${pctTotal.toFixed(0)}%</span>
                             </div>
-                            <div class="list-hist-pill">
-                                BASE: <strong class="${isBaseHunterAchieved ? 'text-green' : 'text-danger'}">${pctBase.toFixed(1)}%</strong>
+                            <div class="bar-legend-row">
+                                <span class="bar-leg-item left"><span class="leg-color-dot dot-mtz"></span><span class="leg-label">MATRIZ</span> <span class="leg-val">${formatMoney(vlrMtz)}</span></span>
+                                <span class="bar-leg-item center"><span class="leg-color-dot dot-rde"></span><span class="leg-label">REDE</span> <span class="leg-val">${formatMoney(vlrRde)}</span></span>
+                                <span class="bar-leg-item right"><span class="leg-color-dot dot-sem"></span><span class="leg-label">S/P</span> <span class="leg-val">${formatMoney(vlrSem)}</span></span>
                             </div>
                         </div>
                     </div>
@@ -1497,14 +1598,14 @@
                 ];
             }
 
-            // Fallback para dados3.json (Preenchimento da Base)
+            // Fallback para dados3.json com contribuições empilhadas (somando a taxa total)
             if (!baseFillJson || !Array.isArray(baseFillJson)) {
                 baseFillJson = [
-                    {"hunter":"Izabela Mattano","vlr_preenchido":206000.00,"vlr_total_inad":216849.48,"pct_preenchimento":0.950,"meta_preenchimento":0.90},
-                    {"hunter":"Bruno Ferreira","vlr_preenchido":221000.00,"vlr_total_inad":243192.23,"pct_preenchimento":0.908,"meta_preenchimento":0.90},
-                    {"hunter":"Deborah Reynaldo","vlr_preenchido":285000.00,"vlr_total_inad":310000.00,"pct_preenchimento":0.919,"meta_preenchimento":0.90},
-                    {"hunter":"Mariana Giampaoli","vlr_preenchido":250000.00,"vlr_total_inad":269578.00,"pct_preenchimento":0.927,"meta_preenchimento":0.90},
-                    {"hunter":"Gerson Xavier","vlr_preenchido":800.00,"vlr_total_inad":988.94,"pct_preenchimento":0.809,"meta_preenchimento":0.90}
+                    {"hunter":"Izabela Mattano","vlr_preenchido_matriz":19516.45,"vlr_preenchido_rede":43369.90,"vlr_total_inad":216849.48,"pct_preenchimento_matriz":0.09,"pct_preenchimento_rede":0.20,"pct_preenchimento":0.29,"meta_preenchimento":0.90},
+                    {"hunter":"Bruno Ferreira","vlr_preenchido_matriz":24319.22,"vlr_preenchido_rede":194553.78,"vlr_total_inad":243192.23,"pct_preenchimento_matriz":0.10,"pct_preenchimento_rede":0.80,"pct_preenchimento":0.90,"meta_preenchimento":0.90},
+                    {"hunter":"Deborah Reynaldo","vlr_preenchido_matriz":46500.00,"vlr_preenchido_rede":232500.00,"vlr_total_inad":310000.00,"pct_preenchimento_matriz":0.15,"pct_preenchimento_rede":0.75,"pct_preenchimento":0.90,"meta_preenchimento":0.90},
+                    {"hunter":"Mariana Giampaoli","vlr_preenchido_matriz":32349.36,"vlr_preenchido_rede":215662.40,"vlr_total_inad":269578.00,"pct_preenchimento_matriz":0.12,"pct_preenchimento_rede":0.80,"pct_preenchimento":0.92,"meta_preenchimento":0.90},
+                    {"hunter":"Gerson Xavier","vlr_preenchido_matriz":197.79,"vlr_preenchido_rede":593.36,"vlr_total_inad":988.94,"pct_preenchimento_matriz":0.20,"pct_preenchimento_rede":0.60,"pct_preenchimento":0.80,"meta_preenchimento":0.90}
                 ];
             }
 
